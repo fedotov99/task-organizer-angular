@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Manager} from '../manager';
 
 @Component({
   selector: 'app-managers',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./managers.component.css']
 })
 export class ManagersComponent implements OnInit {
+  managers: Manager[];
 
   constructor() { }
 
