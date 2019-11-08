@@ -11,7 +11,8 @@ import {PriorityType} from '../priority-type.enum';
 export class TasksComponent implements OnInit {
   tasks: Task[];
   selectedPriority = 'NORMAL';
-  priorityOfCreatedTask: PriorityType = PriorityType.NORMAL;
+  priorityOfCurrentTask: PriorityType = PriorityType.NORMAL;
+  isUrgent: PriorityType = PriorityType.URGENT;
 
   constructor(private taskService: TaskService) { }
 
@@ -27,23 +28,23 @@ export class TasksComponent implements OnInit {
   handlePriorityOfCreatedTask(): void {
     switch (this.selectedPriority) {
       case 'LOW': {
-        this.priorityOfCreatedTask = PriorityType.LOW;
+        this.priorityOfCurrentTask = PriorityType.LOW;
         break;
       }
       case 'NORMAL': {
-        this.priorityOfCreatedTask = PriorityType.NORMAL;
+        this.priorityOfCurrentTask = PriorityType.NORMAL;
         break;
       }
       case 'HIGH': {
-        this.priorityOfCreatedTask = PriorityType.HIGH;
+        this.priorityOfCurrentTask = PriorityType.HIGH;
         break;
       }
       case 'URGENT': {
-        this.priorityOfCreatedTask = PriorityType.URGENT;
+        this.priorityOfCurrentTask = PriorityType.URGENT;
         break;
       }
       default: {
-        this.priorityOfCreatedTask = PriorityType.NORMAL;
+        this.priorityOfCurrentTask = PriorityType.NORMAL;
         break;
       }
     }
@@ -55,15 +56,22 @@ export class TasksComponent implements OnInit {
 
     this.handlePriorityOfCreatedTask();
 
-    this.taskService.addTask(description, this.priorityOfCreatedTask)
+    this.taskService.addTask(description, this.priorityOfCurrentTask)
       .subscribe(task => {
         this.tasks.push(task);
       });
+  }
+
+  update(task: Task): void {
+    this.taskService.updateTask(task)
+      .subscribe();
+    /*newTask => {
+        this.tasks.push(newTask);
+      });*/
   }
 
   delete(task: Task): void {
     this.tasks = this.tasks.filter(t => t !== task);
     this.taskService.deleteTask(task).subscribe();
   }
-
 }

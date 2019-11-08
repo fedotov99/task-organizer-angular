@@ -80,9 +80,18 @@ export class TaskService {
     );
   }
 
-  updateTask(task: Task): Observable<Task> {
-    return this.http.put(this.tasksUrl, task, this.httpOptions).pipe(
-      tap(_ => this.log(`updated task id=${task.taskID}`)),
+  updateTask(task: Task): Observable<any> {
+    const id = task.taskID;
+    const url = `${this.tasksUrl}/${id}`;
+    const body = {
+      description: task.description,
+      report: task.report,
+      completed: task.completed,
+      priority: task.priority
+    };
+
+    return this.http.put(url, task, this.httpOptions).pipe(
+      tap(_ => this.log(`updated task id=${id}`)),
       catchError(this.handleError<any>('updateTask'))
     );
   }

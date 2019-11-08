@@ -37,6 +37,7 @@
     <mat-icon>assignment</mat-icon>
     <mat-panel-title>
       {{task.description}}
+<!--      <mat-icon *ngIf="task.priority == isUrgent">watch_later</mat-icon>   &lt;!&ndash; TODO: why doesn't work??? &ndash;&gt;-->
     </mat-panel-title>
     <mat-panel-description>
 
@@ -51,8 +52,33 @@
   <mat-label>Completed: </mat-label>
   {{task.completed}}
   <br>
-  <button class="delete" title="delete task"
-          (click)="delete(task)"><mat-icon>delete_sweep</mat-icon></button>
+  <mat-label>Description: </mat-label>
+  {{task.description}}
+  <br>
+  <br>
+  <br>
+  <mat-form-field class="example-full-width">
+    <textarea #taskUpdatedDescription matInput placeholder="Update task description" [(ngModel)]="task.description"></textarea>
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <mat-label>Update task priority:</mat-label>
+    <mat-select [(value)]="task.priority">
+      <mat-option value="LOW">Low</mat-option>
+      <mat-option value="NORMAL">Normal</mat-option>
+      <mat-option value="HIGH">High</mat-option>
+      <mat-option value="URGENT">Urgent</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <br>
+  <button mat-button (click)="update(task);">
+    Update task
+  </button>
+  <div align="right">
+    <button class="delete" title="delete task"
+          (click)="delete(task)"><mat-icon>delete_sweep</mat-icon>
+    </button>
+  </div>
 </mat-expansion-panel>
 
 <!--
