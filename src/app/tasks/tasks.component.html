@@ -1,24 +1,68 @@
 <h1>Tasks</h1>
-<div>
-  <label>Task description:
-    <input #taskDescription />
-  </label>
-<!--  <label>Task priority:
-    <input #taskPriority />
-  </label>-->
+
+<mat-expansion-panel [expanded]="false" hideToggle>
+  <mat-expansion-panel-header>
+    <mat-icon>post_add</mat-icon>
+    <mat-panel-title>
+       Add new task
+    </mat-panel-title>
+    <mat-panel-description>
+      Click to input description and priority
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <mat-form-field class="example-full-width">
+    <textarea #taskDescription matInput placeholder="Input task description"></textarea>
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <mat-label>Choose task priority:</mat-label>
+    <mat-select [(value)]="selectedPriority">
+      <mat-option value="LOW">Low</mat-option>
+      <mat-option value="NORMAL">Normal</mat-option>
+      <mat-option value="HIGH">High</mat-option>
+      <mat-option value="URGENT">Urgent</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <br>
   <!-- (click) passes input value to add() and then clears the input -->
-  <button (click)="addTask(taskDescription.value); taskDescription.value=''">
-    add
+  <button mat-button (click)="add(taskDescription.value); taskDescription.value=''">
+    Save task
   </button>
-</div>
+</mat-expansion-panel>
 
+<h2>Task list:</h2>
 
-<ul class="tasks">
-  <li *ngFor="let task of tasks">
-    <a routerLink="/task/{{task.id}}">
-      <span class="badge">{{task.id}}</span> {{task.description}}
+<mat-expansion-panel *ngFor="let task of tasks" [expanded]="false" hideToggle>
+  <mat-expansion-panel-header>
+    <mat-icon>assignment</mat-icon>
+    <mat-panel-title>
+      {{task.description}}
+    </mat-panel-title>
+    <mat-panel-description>
+
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <mat-label>taskID: </mat-label>
+  {{task.taskID}}
+  <br>
+  <mat-label>Priority: </mat-label>
+  {{task.priority}}
+  <br>
+  <mat-label>Completed: </mat-label>
+  {{task.completed}}
+  <br>
+  <button class="delete" title="delete task"
+          (click)="delete(task)"><mat-icon>delete_sweep</mat-icon></button>
+</mat-expansion-panel>
+
+<!--
+<mat-list class="tasks">
+  <mat-list-item *ngFor="let task of tasks">
+    <a routerLink="/task/{{task.taskID}}">
+&lt;!&ndash;      <span class="badge">{{task.taskID}}</span> &ndash;&gt;
+      {{task.description}}
     </a>
     <button class="delete" title="delete task"
-            (click)="deleteTask(task)">x</button>
-  </li>
-</ul>
+            (click)="delete(task)">x</button>
+  </mat-list-item>
+</mat-list>-->

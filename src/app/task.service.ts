@@ -4,13 +4,14 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Task } from './task';
 import { MessageService } from './message.service';
+import {PriorityType} from './priority-type.enum';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
-  private tasksUrl = 'http://localhost:8080/task/';  // URL to web api
+  private tasksUrl = 'http://localhost:8080/task';  // URL to web api
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -60,15 +61,17 @@ export class TaskService {
     );
   }
 
-  addTask(task: Task): Observable<Task> {
-    return this.http.post<Task>(this.tasksUrl, task, this.httpOptions).pipe(
-      tap((newTask: Task) => this.log(`added task w/ id=${newTask.id}`)),
+  addTask(description: string, priority: PriorityType): Observable<Task> {
+    const url = `${this.tasksUrl}/?description=${description}`;
+    const body = priority;
+    return this.http.post<Task>(url, body, this.httpOptions).pipe(
+      tap((newTask: Task) => this.log(`added task w/ id=${newTask.taskID}`)),
       catchError(this.handleError<Task>('addTask'))
     );
   }
 
   deleteTask(task: Task | string): Observable<Task> {
-    const id = typeof task === 'string' ? task : task.id;
+    const id = typeof task === 'string' ? task : task.taskID;
     const url = `${this.tasksUrl}/${id}`;
 
     return this.http.delete<Task>(url, this.httpOptions).pipe(
@@ -77,9 +80,9 @@ export class TaskService {
     );
   }
 
-  updateTask(task: Task): Observable<any> {
+  updateTask(task: Task): Observable<Task> {
     return this.http.put(this.tasksUrl, task, this.httpOptions).pipe(
-      tap(_ => this.log(`updated task id=${task.id}`)),
+      tap(_ => this.log(`updated task id=${task.taskID}`)),
       catchError(this.handleError<any>('updateTask'))
     );
   }
@@ -105,6 +108,6 @@ export class TaskService {
   }
 
   private log(message: string) {
-    this.messageService.add(`HeroService: ${message}`);
+    this.messageService.add(`TaskService: ${message}`);
   }
 }
