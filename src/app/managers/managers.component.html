@@ -1,1 +1,40 @@
 <h1>Managers</h1>
+
+<mat-expansion-panel [expanded]="false" hideToggle>
+  <mat-expansion-panel-header>
+    <mat-icon>person_add</mat-icon>
+    <mat-panel-title>
+      Add new manager
+    </mat-panel-title>
+    <mat-panel-description>
+      Click to input new manager name
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <mat-form-field class="example-full-width">
+    <textarea #managerName matInput placeholder="Input manager name"></textarea>
+  </mat-form-field>
+  <br>
+  <!-- (click) passes input value to add() and then clears the input -->
+  <button mat-button (click)="add(managerName.value); managerName.value=''">
+    Save manager
+  </button>
+</mat-expansion-panel>
+
+<h2>Manager list:</h2>
+
+<mat-expansion-panel *ngFor="let manager of managers" [expanded]="false" hideToggle>
+  <mat-expansion-panel-header>
+    <mat-icon>face</mat-icon>
+    <mat-panel-title>
+      {{manager.name}}
+    </mat-panel-title>
+    <mat-panel-description>
+
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <mat-label>userID: </mat-label>
+  {{manager.userID}}
+  <br>
+  <br>
+  <br>
+</mat-expansion-panel>

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {Task} from '../task';
-import {TaskService} from '../task.service';
-import {PriorityType} from '../priority-type.enum';
+import {Task} from '../classes/task';
+import {TaskService} from '../services/task.service';
+import {PriorityType} from '../classes/priority-type.enum';
 
 @Component({
   selector: 'app-tasks',
@@ -17,6 +17,7 @@ export class TasksComponent implements OnInit {
   constructor(private taskService: TaskService) { }
 
   ngOnInit() {
+    // TODO: must get task for definite user, but not all task!
     this.getTasks();
   }
 

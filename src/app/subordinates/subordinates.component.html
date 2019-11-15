@@ -1,1 +1,28 @@
 <h1>Subordinates</h1>
+
+<mat-expansion-panel *ngFor="let subordinate of subordinates" [expanded]="false" hideToggle>
+  <mat-expansion-panel-header>
+    <mat-icon>face</mat-icon>
+    <mat-panel-title>
+      {{subordinate.name}}
+    </mat-panel-title>
+    <mat-panel-description>
+
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <mat-label>userID: </mat-label>
+  {{subordinate.userID}}
+  <br>
+  <mat-label>Manager name: </mat-label>
+  {{subordinate.manager.name}}
+  <br>
+  <mat-label>Score: </mat-label>
+  {{subordinate.score}}
+  <br>
+  <mat-label>Position: </mat-label>
+  {{subordinate.position}}
+  <br>
+  <br>
+  <br>
+</mat-expansion-panel>
+

@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { Task } from './task';
+import { Task } from '../classes/task';
 import { MessageService } from './message.service';
-import {PriorityType} from './priority-type.enum';
+import {PriorityType} from '../classes/priority-type.enum';
 
 
 @Injectable({
@@ -61,6 +61,7 @@ export class TaskService {
     );
   }
 
+  // TODO: must add task into overall repository and then add task to definite user
   addTask(description: string, priority: PriorityType): Observable<Task> {
     const url = `${this.tasksUrl}/?description=${description}`;
     const body = priority;
@@ -83,12 +84,12 @@ export class TaskService {
   updateTask(task: Task): Observable<any> {
     const id = task.taskID;
     const url = `${this.tasksUrl}/${id}`;
-    const body = {
+/*    const body = {
       description: task.description,
       report: task.report,
       completed: task.completed,
       priority: task.priority
-    };
+    };*/
 
     return this.http.put(url, task, this.httpOptions).pipe(
       tap(_ => this.log(`updated task id=${id}`)),
