@@ -1,5 +1,43 @@
 <h1>Subordinates</h1>
 
+<mat-expansion-panel [expanded]="false" hideToggle>
+  <mat-expansion-panel-header>
+    <mat-icon>person_add</mat-icon>
+    <mat-panel-title>
+      Add new subordinate
+    </mat-panel-title>
+    <mat-panel-description>
+      Click to input new subordinate name
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <mat-form-field class="example-full-width">
+    <textarea #subordinateName matInput placeholder="Input subordinate name"></textarea>
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <mat-label>Choose subordinate position:</mat-label>
+    <mat-select [(value)]="selectedPosition">
+      <mat-option value="Junior">Junior</mat-option>
+      <mat-option value="Middle">Middle</mat-option>
+      <mat-option value="Senior">Senior</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <mat-label>Choose manager of subordinate:</mat-label>
+    <mat-select [(value)]="selectedManager">
+      <mat-option *ngFor="let manager of managers" value=manager>{{manager.name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <br>
+  <!-- (click) passes input value to add() and then clears the input -->
+  <button mat-button (click)="add(subordinateName.value, 0); subordinateName.value=''">
+    Save subordinate
+  </button>
+</mat-expansion-panel>
+
+<h2>Subordinate list:</h2>
+
 <mat-expansion-panel *ngFor="let subordinate of subordinates" [expanded]="false" hideToggle>
   <mat-expansion-panel-header>
     <mat-icon>face</mat-icon>
