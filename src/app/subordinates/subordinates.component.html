@@ -25,8 +25,8 @@
   <br>
   <mat-form-field>
     <mat-label>Choose manager of subordinate:</mat-label>
-    <mat-select [(value)]="selectedManager">
-      <mat-option *ngFor="let manager of managers" value=manager>{{manager.name}}</mat-option>
+    <mat-select [(value)]="selectedManagerID">
+      <mat-option *ngFor="let manager of managers" value={{manager.userID}}>{{manager.name}}</mat-option>
     </mat-select>
   </mat-form-field>
   <br>
@@ -51,8 +51,8 @@
   <mat-label>userID: </mat-label>
   {{subordinate.userID}}
   <br>
-  <mat-label>Manager name: </mat-label>
-  {{subordinate.manager.name}}
+  <mat-label>Manager ID: </mat-label>
+  {{subordinate.managerID}}
   <br>
   <mat-label>Score: </mat-label>
   {{subordinate.score}}

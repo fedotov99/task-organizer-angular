@@ -15,7 +15,7 @@ export class SubordinatesComponent implements OnInit {
   managers: Manager[];
   selectedPosition = 'Junior';
   positionOfCurrentSubordinate: PositionType = PositionType.Junior;
-  selectedManager: Manager;
+  selectedManagerID: string;
 
   constructor(private subordinateService: SubordinateService, private managerService: ManagerService) { }
 
@@ -61,7 +61,7 @@ export class SubordinatesComponent implements OnInit {
 
     let subordinate: Subordinate = new Subordinate();
     subordinate.name = subordinateName;
-    subordinate.manager = this.selectedManager;
+    subordinate.managerID = this.selectedManagerID;
     subordinate.score = score;
     subordinate.position = this.positionOfCurrentSubordinate;
 
