@@ -26,4 +26,8 @@ nav a:hover {
 nav a.active {
   color: #039be5;
 }
+.logo {
+  margin-left: 2%;
+  margin-right: 5px;
+}
 
