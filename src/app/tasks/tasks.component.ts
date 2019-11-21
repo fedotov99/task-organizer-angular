@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Task} from '../classes/task';
 import {TaskService} from '../services/task.service';
 import {PriorityType} from '../classes/priority-type.enum';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {SubordinateService} from "../services/subordinate.service";
 
 @Component({
   selector: 'app-tasks',
@@ -14,20 +14,12 @@ export class TasksComponent implements OnInit {
   selectedPriority = 'NORMAL';
   priorityOfCurrentTask: PriorityType = PriorityType.NORMAL;
   isUrgent: PriorityType = PriorityType.URGENT;
-  firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
 
-  constructor(private taskService: TaskService, private _formBuilder: FormBuilder) { }
+  constructor(private taskService: TaskService, private subordinateService: SubordinateService) { }
 
   ngOnInit() {
     // this.getTasks();
-    this.getTasksByExecutor("5dcf05b9c201be223ceda3df"); // TODO: pass session userID
-    this.firstFormGroup = this._formBuilder.group({
-      firstCtrl: ['', Validators.required]
-    });
-    this.secondFormGroup = this._formBuilder.group({
-      secondCtrl: ['', Validators.required]
-    });
+    this.getTasksByExecutor("5dd66540c201be1af063db12"); // TODO: pass session userID
   }
 
   getTasks(): void {
@@ -88,6 +80,11 @@ export class TasksComponent implements OnInit {
     /*newTask => {
         this.tasks.push(newTask);
       });*/
+  }
+
+  sendToManager(task: Task, managerID: string): void { // Todo: delete second param
+    this.subordinateService.sendToManager(task, managerID)
+      .subscribe();
   }
 
   delete(task: Task): void {

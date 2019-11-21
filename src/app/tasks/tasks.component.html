@@ -50,8 +50,7 @@
   </mat-expansion-panel-header>
 
   <mat-horizontal-stepper #stepper>
-    <mat-step [stepControl]="firstFormGroup">
-      <form [formGroup]="firstFormGroup">
+    <mat-step>
         <ng-template matStepLabel>Update task</ng-template>
 
         <mat-label>taskID: </mat-label>
@@ -72,7 +71,7 @@
         <br>
         <br>
         <mat-form-field class="example-full-width">
-          <textarea #taskUpdatedDescription matInput placeholder="Update task description" [(ngModel)]="task.description"></textarea>
+          <textarea matInput placeholder="Update task description" [(ngModel)]="task.description"></textarea>
         </mat-form-field>
         <br>
         <mat-form-field>
@@ -93,12 +92,10 @@
                   (click)="delete(task)"><mat-icon>delete_sweep</mat-icon>
           </button>
         </div>
-      </form>
     </mat-step>
-    <mat-step [stepControl]="secondFormGroup">
-      <form [formGroup]="secondFormGroup">
+    <mat-step>
         <ng-template matStepLabel>Send report to manager</ng-template>
-        <mat-label>Please, write the report for manager:</mat-label>
+        <mat-label>Please, write the report for your manager:</mat-label>
         <br>
         <mat-form-field class="example-full-width">
           <textarea #taskReport matInput placeholder="Input task report"></textarea>
@@ -112,7 +109,6 @@
         <button mat-button (click)="sendToManager(task, managerID.value); taskReport.value=''">
           Send to manager
         </button>
-      </form>
     </mat-step>
   </mat-horizontal-stepper>
 </mat-expansion-panel>
