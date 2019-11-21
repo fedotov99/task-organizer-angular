@@ -66,6 +66,18 @@ export class SubordinateService {
     );
   }
 
+  deleteTaskFromSubordinateTaskList(task: Task, subordinateID: string): Observable<Task> {
+    // const id = ...; // TODO: session subordinate userID
+    const id = subordinateID; // TODO: delete it
+    const taskID = task.taskID;
+    const url = `${this.subordinatesUrl}/${id}/delete?taskID=${taskID}`;
+
+    return this.http.delete<Task>(url, this.httpOptions).pipe(
+      tap(_ => this.log(`deleted taskID=${taskID} from subordinate's id=${id} task list`)),
+      catchError(this.handleError<Task>('deleteTaskFromSubordinateTaskList'))
+    );
+  }
+
   // TODO: WE MUST UPDATE TASK (report and completed)
   sendToManager(task: Task, subordinateID: string) {
     // const id = ...; // TODO: session subordinate userID
@@ -75,7 +87,7 @@ export class SubordinateService {
 
     return this.http.post(url, task, this.httpOptions).pipe(
       tap(_ => this.log(`sended taskID=${taskID} of subordinateID=${id} to manager`)),
-      catchError(this.handleError<Task>('updateTask'))
+      catchError(this.handleError<Task>('sendToManager'))
     );
   }
 

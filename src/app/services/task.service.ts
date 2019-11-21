@@ -21,10 +21,10 @@ export class TaskService {
     private http: HttpClient,
     private messageService: MessageService) { }
 
-  getTasks(): Observable<Task[]> {
+  getAllTasksFromDB(): Observable<Task[]> {
     return this.http.get<Task[]>(this.tasksUrl)
       .pipe(
-        tap(_ => this.log('fetched tasks')),
+        tap(_ => this.log('fetched all tasks from DB')),
         catchError(this.handleError<Task[]>('getTasks', []))
       );
   }
@@ -69,6 +69,9 @@ export class TaskService {
     );
   }
 
+  // we shouldn't call this deleting task from DB method.
+  // Instead, we must work with local user task list
+  // see subordinate and manager services for the last one.
   deleteTask(task: Task | string): Observable<Task> {
     const id = typeof task === 'string' ? task : task.taskID;
     const url = `${this.tasksUrl}/${id}`;

@@ -24,8 +24,8 @@ export class TasksComponent implements OnInit {
     this.getTasksByExecutor(this.sessionUserID); // TODO: pass session userID
   }
 
-  getTasks(): void {
-    this.taskService.getTasks()
+  getAllTasksFromDB(): void {
+    this.taskService.getAllTasksFromDB()
       .subscribe(tasks => this.tasks = tasks);
   }
 
@@ -93,6 +93,9 @@ export class TasksComponent implements OnInit {
   // TODO: call to subordinate service special method
   delete(task: Task): void {
     this.tasks = this.tasks.filter(t => t !== task);
-    this.taskService.deleteTask(task).subscribe();
+    // this.taskService.deleteTask(task).subscribe();
+    // we shouldn't call deleting task from DB method.
+    // Instead, we must work with local user task list
+    this.subordinateService.deleteTaskFromSubordinateTaskList(task, this.sessionUserID).subscribe();
   }
 }
