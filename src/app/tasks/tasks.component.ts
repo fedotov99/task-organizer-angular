@@ -85,6 +85,7 @@ export class TasksComponent implements OnInit {
   }
 
   sendToManager(task: Task): void {
+    this.tasks = this.tasks.filter(t => t !== task);
     this.subordinateService.sendToManager(task, this.sessionUserID) // Todo: delete second param (session)
       .subscribe();
   }
