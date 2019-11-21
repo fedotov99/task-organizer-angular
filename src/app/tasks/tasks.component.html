@@ -24,8 +24,13 @@
     </mat-select>
   </mat-form-field>
   <br>
+<!--  TODO: delete it:-->
+  <br>
+  <mat-form-field class="example-full-width">
+    <textarea #taskExecutor matInput placeholder="Input task executorID"></textarea>
+  </mat-form-field>
   <!-- (click) passes input value to add() and then clears the input -->
-  <button mat-button (click)="add(taskDescription.value); taskDescription.value=''">
+  <button mat-button (click)="add(taskDescription.value, taskExecutor.value); taskDescription.value=''">
     Save task
   </button>
 </mat-expansion-panel>
@@ -43,52 +48,71 @@
 
     </mat-panel-description>
   </mat-expansion-panel-header>
-  <mat-label>taskID: </mat-label>
-  {{task.taskID}}
-  <br>
-  <mat-label>Priority: </mat-label>
-  {{task.priority}}
-  <br>
-  <mat-label>Completed: </mat-label>
-  {{task.completed}}
-  <br>
-  <mat-label>Description: </mat-label>
-  {{task.description}}
-  <br>
-  <br>
-  <br>
-  <mat-form-field class="example-full-width">
-    <textarea #taskUpdatedDescription matInput placeholder="Update task description" [(ngModel)]="task.description"></textarea>
-  </mat-form-field>
-  <br>
-  <mat-form-field>
-    <mat-label>Update task priority:</mat-label>
-    <mat-select [(value)]="task.priority">
-      <mat-option value="LOW">Low</mat-option>
-      <mat-option value="NORMAL">Normal</mat-option>
-      <mat-option value="HIGH">High</mat-option>
-      <mat-option value="URGENT">Urgent</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <br>
-  <button mat-button (click)="update(task);">
-    Update task
-  </button>
-  <div align="right">
-    <button class="delete" title="delete task"
-          (click)="delete(task)"><mat-icon>delete_sweep</mat-icon>
-    </button>
-  </div>
-</mat-expansion-panel>
 
-<!--
-<mat-list class="tasks">
-  <mat-list-item *ngFor="let task of tasks">
-    <a routerLink="/task/{{task.taskID}}">
-&lt;!&ndash;      <span class="badge">{{task.taskID}}</span> &ndash;&gt;
-      {{task.description}}
-    </a>
-    <button class="delete" title="delete task"
-            (click)="delete(task)">x</button>
-  </mat-list-item>
-</mat-list>-->
+  <mat-horizontal-stepper #stepper>
+    <mat-step [stepControl]="firstFormGroup">
+      <form [formGroup]="firstFormGroup">
+        <ng-template matStepLabel>Update task</ng-template>
+
+        <mat-label>taskID: </mat-label>
+        {{task.taskID}}
+        <br>
+        <mat-label>Priority: </mat-label>
+        {{task.priority}}
+        <br>
+        <mat-label>Completed: </mat-label>
+        {{task.completed}}
+        <br>
+        <mat-label>Description: </mat-label>
+        {{task.description}}
+        <br>
+        <mat-label>ExecutorID: </mat-label>
+        {{task.executorID}}
+        <br>
+        <br>
+        <br>
+        <mat-form-field class="example-full-width">
+          <textarea #taskUpdatedDescription matInput placeholder="Update task description" [(ngModel)]="task.description"></textarea>
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+          <mat-label>Update task priority:</mat-label>
+          <mat-select [(value)]="task.priority">
+            <mat-option value="LOW">Low</mat-option>
+            <mat-option value="NORMAL">Normal</mat-option>
+            <mat-option value="HIGH">High</mat-option>
+            <mat-option value="URGENT">Urgent</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <br>
+        <button mat-button (click)="update(task);">
+          Update task
+        </button>
+        <div align="right">
+          <button class="delete" title="delete task"
+                  (click)="delete(task)"><mat-icon>delete_sweep</mat-icon>
+          </button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup">
+      <form [formGroup]="secondFormGroup">
+        <ng-template matStepLabel>Send report to manager</ng-template>
+        <mat-label>Please, write the report for manager:</mat-label>
+        <br>
+        <mat-form-field class="example-full-width">
+          <textarea #taskReport matInput placeholder="Input task report"></textarea>
+        </mat-form-field>
+        <br>
+<!--        TODO: delete managerID field and param-->
+        <mat-form-field class="example-full-width">
+          <textarea #managerID matInput placeholder="Input your managerID"></textarea>
+        </mat-form-field>
+        <br>
+        <button mat-button (click)="sendToManager(task, managerID.value); taskReport.value=''">
+          Send to manager
+        </button>
+      </form>
+    </mat-step>
+  </mat-horizontal-stepper>
+</mat-expansion-panel>

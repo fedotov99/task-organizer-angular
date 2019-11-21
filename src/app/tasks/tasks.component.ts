@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Task} from '../classes/task';
 import {TaskService} from '../services/task.service';
 import {PriorityType} from '../classes/priority-type.enum';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-tasks',
@@ -13,12 +14,20 @@ export class TasksComponent implements OnInit {
   selectedPriority = 'NORMAL';
   priorityOfCurrentTask: PriorityType = PriorityType.NORMAL;
   isUrgent: PriorityType = PriorityType.URGENT;
+  firstFormGroup: FormGroup;
+  secondFormGroup: FormGroup;
 
-  constructor(private taskService: TaskService) { }
+  constructor(private taskService: TaskService, private _formBuilder: FormBuilder) { }
 
   ngOnInit() {
     // this.getTasks();
-    // this.getTasksByExecutor(......); // TODO: pass session userID
+    this.getTasksByExecutor("5dcf05b9c201be223ceda3df"); // TODO: pass session userID
+    this.firstFormGroup = this._formBuilder.group({
+      firstCtrl: ['', Validators.required]
+    });
+    this.secondFormGroup = this._formBuilder.group({
+      secondCtrl: ['', Validators.required]
+    });
   }
 
   getTasks(): void {
@@ -56,7 +65,7 @@ export class TasksComponent implements OnInit {
     }
   }
 
-  add(description: string): void {
+  add(description: string, executorID: string): void { // TODO: delete 2nd param
     description = description.trim();
     if (!description) { return; }
     this.handlePriorityOfCreatedTask();
@@ -65,6 +74,7 @@ export class TasksComponent implements OnInit {
     task.description = description;
     task.priority = this.priorityOfCurrentTask;
     // task.executorID = ...; // TODO: pass session userID
+    task.executorID = executorID;
 
     this.taskService.addTask(task)
       .subscribe(task => {
