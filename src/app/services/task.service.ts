@@ -29,14 +29,6 @@ export class TaskService {
       );
   }
 
-  getTasksByExecutor(executorID: string): Observable<Task[]> {
-    const url = `${this.tasksUrl}/byUser/${executorID}`;
-    return this.http.get<Task[]>(url).pipe(
-      tap(_ => this.log(`fetched tasks of executorID=${executorID}`)),
-      catchError(this.handleError<Task[]>(`getTask id=${executorID}`))
-    );
-  }
-
   getTaskNo404<Data>(id: string): Observable<Task> {
     const url = `${this.tasksUrl}/?id=${id}`;
     return this.http.get<Task[]>(url)
@@ -69,7 +61,6 @@ export class TaskService {
     );
   }
 
-  // TODO: must add task into overall repository and then add task to definite user
   addTask(task: Task): Observable<Task> {
     const url = `${this.tasksUrl}`;
     return this.http.post<Task>(url, task, this.httpOptions).pipe(

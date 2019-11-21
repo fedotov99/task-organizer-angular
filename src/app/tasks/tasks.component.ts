@@ -30,7 +30,7 @@ export class TasksComponent implements OnInit {
   }
 
   getTasksByExecutor(executorID: string): void {
-    this.taskService.getTasksByExecutor(executorID)
+    this.subordinateService.getTasksOfSubordinate(executorID)
       .subscribe(tasks => this.tasks = tasks);
   }
 
@@ -89,6 +89,7 @@ export class TasksComponent implements OnInit {
       .subscribe();
   }
 
+  // TODO: call to subordinate service special method
   delete(task: Task): void {
     this.tasks = this.tasks.filter(t => t !== task);
     this.taskService.deleteTask(task).subscribe();

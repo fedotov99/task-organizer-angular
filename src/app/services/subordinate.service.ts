@@ -29,6 +29,14 @@ export class SubordinateService {
       );
   }
 
+  getTasksOfSubordinate(executorID: string): Observable<Task[]> {
+    const url = `${this.subordinatesUrl}/${executorID}/getSubordinateTaskList`;
+    return this.http.get<Task[]>(url).pipe(
+      tap(_ => this.log(`fetched tasks of subordinate ID=${executorID}`)),
+      catchError(this.handleError<Task[]>(`tasks of subordinate ID=${executorID}`))
+    );
+  }
+
   addSubordinate(subordinate: Subordinate): Observable<Subordinate> {
     let managerID: string = subordinate.managerID;
     const url = `${this.subordinatesUrl}/?managerID=${managerID}`;
@@ -58,15 +66,16 @@ export class SubordinateService {
     );
   }
 
-  sendToManager(task: Task, subordinateID: string): Observable<string> {
+  // TODO: WE MUST UPDATE TASK (report and completed)
+  sendToManager(task: Task, subordinateID: string) {
     // const id = ...; // TODO: session subordinate userID
     const id = subordinateID; // TODO: delete it
     const taskID = task.taskID;
-    const url = `${this.subordinatesUrl}/${id}/sendRequestToManager?taskID=${taskID}`;
+    const url = `${this.subordinatesUrl}/${id}/complete`;
 
-    return this.http.get<string>(url, this.httpOptions).pipe(
+    return this.http.post(url, task, this.httpOptions).pipe(
       tap(_ => this.log(`sended taskID=${taskID} of subordinateID=${id} to manager`)),
-      catchError(this.handleError<string>('updateTask'))
+      catchError(this.handleError<Task>('updateTask'))
     );
   }
 
