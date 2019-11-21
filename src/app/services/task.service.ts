@@ -70,10 +70,9 @@ export class TaskService {
   }
 
   // TODO: must add task into overall repository and then add task to definite user
-  addTask(description: string, priority: PriorityType): Observable<Task> {
-    const url = `${this.tasksUrl}/?description=${description}`;
-    const body = priority;
-    return this.http.post<Task>(url, body, this.httpOptions).pipe(
+  addTask(task: Task): Observable<Task> {
+    const url = `${this.tasksUrl}`;
+    return this.http.post<Task>(url, task, this.httpOptions).pipe(
       tap((newTask: Task) => this.log(`added task w/ id=${newTask.taskID}`)),
       catchError(this.handleError<Task>('addTask'))
     );

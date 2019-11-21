@@ -17,12 +17,17 @@ export class TasksComponent implements OnInit {
   constructor(private taskService: TaskService) { }
 
   ngOnInit() {
-    // TODO: must get task for definite user, but not all task!
-    this.getTasks();
+    // this.getTasks();
+    // this.getTasksByExecutor(......); // TODO: pass session userID
   }
 
   getTasks(): void {
     this.taskService.getTasks()
+      .subscribe(tasks => this.tasks = tasks);
+  }
+
+  getTasksByExecutor(executorID: string): void {
+    this.taskService.getTasksByExecutor(executorID)
       .subscribe(tasks => this.tasks = tasks);
   }
 
@@ -54,10 +59,14 @@ export class TasksComponent implements OnInit {
   add(description: string): void {
     description = description.trim();
     if (!description) { return; }
-
     this.handlePriorityOfCreatedTask();
 
-    this.taskService.addTask(description, this.priorityOfCurrentTask)
+    let task = new Task();
+    task.description = description;
+    task.priority = this.priorityOfCurrentTask;
+    // task.executorID = ...; // TODO: pass session userID
+
+    this.taskService.addTask(task)
       .subscribe(task => {
         this.tasks.push(task);
       });
