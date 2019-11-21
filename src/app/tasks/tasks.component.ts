@@ -15,11 +15,13 @@ export class TasksComponent implements OnInit {
   priorityOfCurrentTask: PriorityType = PriorityType.NORMAL;
   isUrgent: PriorityType = PriorityType.URGENT;
 
+  sessionUserID: string = "5dd66540c201be1af063db12"; // TODO: delete
+
   constructor(private taskService: TaskService, private subordinateService: SubordinateService) { }
 
   ngOnInit() {
     // this.getTasks();
-    this.getTasksByExecutor("5dd66540c201be1af063db12"); // TODO: pass session userID
+    this.getTasksByExecutor(this.sessionUserID); // TODO: pass session userID
   }
 
   getTasks(): void {
@@ -82,8 +84,8 @@ export class TasksComponent implements OnInit {
       });*/
   }
 
-  sendToManager(task: Task, managerID: string): void { // Todo: delete second param
-    this.subordinateService.sendToManager(task, managerID)
+  sendToManager(task: Task): void {
+    this.subordinateService.sendToManager(task, this.sessionUserID) // Todo: delete second param (session)
       .subscribe();
   }
 

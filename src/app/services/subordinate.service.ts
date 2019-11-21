@@ -58,6 +58,18 @@ export class SubordinateService {
     );
   }
 
+  sendToManager(task: Task, subordinateID: string): Observable<string> {
+    // const id = ...; // TODO: session subordinate userID
+    const id = subordinateID; // TODO: delete it
+    const taskID = task.taskID;
+    const url = `${this.subordinatesUrl}/${id}/sendRequestToManager?taskID=${taskID}`;
+
+    return this.http.get<string>(url, this.httpOptions).pipe(
+      tap(_ => this.log(`sended taskID=${taskID} of subordinateID=${id} to manager`)),
+      catchError(this.handleError<string>('updateTask'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.

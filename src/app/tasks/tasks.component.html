@@ -101,13 +101,8 @@
           <textarea #taskReport matInput placeholder="Input task report"></textarea>
         </mat-form-field>
         <br>
-<!--        TODO: delete managerID field and param-->
-        <mat-form-field class="example-full-width">
-          <textarea #managerID matInput placeholder="Input your managerID"></textarea>
-        </mat-form-field>
-        <br>
-        <button mat-button (click)="sendToManager(task, managerID.value); taskReport.value=''">
-          Send to manager
+        <button mat-button (click)="sendToManager(task); taskReport.value=''">
+          Send to my manager
         </button>
     </mat-step>
   </mat-horizontal-stepper>
