@@ -29,6 +29,14 @@ export class TaskService {
       );
   }
 
+  getTasksByExecutor(executorID: string): Observable<Task[]> {
+    const url = `${this.tasksUrl}/byUser/${executorID}`;
+    return this.http.get<Task[]>(url).pipe(
+      tap(_ => this.log(`fetched tasks of executorID=${executorID}`)),
+      catchError(this.handleError<Task[]>(`getTask id=${executorID}`))
+    );
+  }
+
   getTaskNo404<Data>(id: string): Observable<Task> {
     const url = `${this.tasksUrl}/?id=${id}`;
     return this.http.get<Task[]>(url)
