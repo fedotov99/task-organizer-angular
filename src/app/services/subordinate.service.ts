@@ -29,6 +29,14 @@ export class SubordinateService {
       );
   }
 
+  getSubordinateByID(id: string): Observable<Subordinate> {
+    const url = `${this.subordinatesUrl}/${id}`;
+    return this.http.get<Subordinate>(url).pipe(
+      tap(_ => this.log(`fetched subordinate id=${id}`)),
+      catchError(this.handleError<Subordinate>(`getSubordinate id=${id}`))
+    );
+  }
+
   getTasksOfSubordinate(executorID: string): Observable<Task[]> {
     const url = `${this.subordinatesUrl}/${executorID}/getSubordinateTaskList`;
     return this.http.get<Task[]>(url).pipe(

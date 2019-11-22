@@ -1,3 +1,29 @@
+<mat-expansion-panel [expanded]="false" hideToggle>
+  <mat-expansion-panel-header>
+    <mat-icon>face</mat-icon>
+    <mat-panel-title>
+      {{subordinate.name}}
+    </mat-panel-title>
+    <mat-panel-description>
+      My account information
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <mat-label>userID: </mat-label>
+  {{subordinate.userID}}
+  <br>
+  <mat-label>Manager ID: </mat-label>
+  {{subordinate.managerID}}
+  <br>
+  <mat-label>Score: </mat-label>
+  {{subordinate.score}}
+  <br>
+  <mat-label>Position: </mat-label>
+  {{subordinate.position}}
+  <br>
+  <br>
+  <br>
+</mat-expansion-panel>
+
 <h1>Tasks</h1>
 
 <mat-expansion-panel [expanded]="false" hideToggle>

@@ -3,6 +3,7 @@ import {Task} from '../classes/task';
 import {TaskService} from '../services/task.service';
 import {PriorityType} from '../classes/priority-type.enum';
 import {SubordinateService} from "../services/subordinate.service";
+import {Subordinate} from "../classes/subordinate";
 
 @Component({
   selector: 'app-subordinate-tasks',
@@ -11,6 +12,7 @@ import {SubordinateService} from "../services/subordinate.service";
 })
 export class SubordinateTasksComponent implements OnInit {
   tasks: Task[];
+  subordinate: Subordinate;
   selectedPriority = 'NORMAL';
   priorityOfCurrentTask: PriorityType = PriorityType.NORMAL;
   isUrgent: PriorityType = PriorityType.URGENT;
@@ -22,6 +24,7 @@ export class SubordinateTasksComponent implements OnInit {
   ngOnInit() {
     // this.getTasks();
     this.getTasksByExecutor(this.sessionUserID); // TODO: pass session userID
+    this.getSubordinateByID(this.sessionUserID);
   }
 
   getAllTasksFromDB(): void {
@@ -32,6 +35,11 @@ export class SubordinateTasksComponent implements OnInit {
   getTasksByExecutor(executorID: string): void {
     this.subordinateService.getTasksOfSubordinate(executorID)
       .subscribe(tasks => this.tasks = tasks);
+  }
+
+  getSubordinateByID(subordinateID: string): void {
+    this.subordinateService.getSubordinateByID(subordinateID)
+      .subscribe(subordinate => this.subordinate = subordinate);
   }
 
   handlePriorityOfCreatedTask(): void {
