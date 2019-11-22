@@ -15,19 +15,21 @@ import {Subordinate} from "../classes/subordinate";
 export class ManagerTasksComponent implements OnInit {
   manager: Manager;
   tasks: Task[];
+  uncheckedTasks: Task[]; // list of tasks sent by subordinates for approval (or rejecting)
   managerSubordinates: Subordinate[]; // subordinates of this manager
   selectedSubordinateID: string;
   selectedPriority = 'NORMAL';
   priorityOfCurrentTask: PriorityType = PriorityType.NORMAL;
   isUrgent: PriorityType = PriorityType.URGENT;
 
-  sessionUserID: string = "5dd66540c201be1af063db12"; // TODO: delete
+  sessionUserID: string = "5dcf05b9c201be223ceda3df"; // TODO: delete
 
   constructor(private taskService: TaskService, private managerService: ManagerService) { }
 
   ngOnInit() {
     // this.getTasks();
-    this.getTasksByExecutor(this.sessionUserID); // TODO: pass session userID
+    this.getTasksByExecutor(this.sessionUserID);
+    this.getUncheckedTasksList(this.sessionUserID);
     this.getManagerByID(this.sessionUserID);
     this.getSubordinatesOfManager(this.sessionUserID);
   }
@@ -40,6 +42,11 @@ export class ManagerTasksComponent implements OnInit {
   getTasksByExecutor(executorID: string): void {
     this.managerService.getTasksOfManager(executorID)
       .subscribe(tasks => this.tasks = tasks);
+  }
+
+  getUncheckedTasksList(managerID: string): void {
+    this.managerService.getUncheckedTasksList(managerID)
+      .subscribe(uncheckedTasks => this.uncheckedTasks = uncheckedTasks);
   }
 
   getSubordinatesOfManager(managerID: string): void {
@@ -77,7 +84,7 @@ export class ManagerTasksComponent implements OnInit {
     }
   }
 
-  add(description: string, executorID: string): void { // TODO: delete 2nd param
+  add(description: string): void {
     description = description.trim();
     if (!description) { return; }
     this.handlePriorityOfCreatedTask();
@@ -85,8 +92,7 @@ export class ManagerTasksComponent implements OnInit {
     let task = new Task();
     task.description = description;
     task.priority = this.priorityOfCurrentTask;
-    // task.executorID = ...; // TODO: pass session userID
-    task.executorID = executorID;
+    task.executorID = this.sessionUserID;
 
     this.taskService.addTask(task)
       .subscribe(task => {
@@ -102,7 +108,6 @@ export class ManagerTasksComponent implements OnInit {
       });*/
   }
 
-  // TODO: call to manager service special method
   delete(task: Task): void {
     this.tasks = this.tasks.filter(t => t !== task);
     // this.taskService.deleteTask(task).subscribe();
@@ -114,7 +119,21 @@ export class ManagerTasksComponent implements OnInit {
   assignTaskToSubordinate(task: Task): void {
     let subordinateID: string = this.selectedSubordinateID;
     this.tasks = this.tasks.filter(t => t !== task);
-    this.managerService.assignTaskToSubordinate(task, this.sessionUserID, subordinateID) // Todo: delete second param (session)
+    this.managerService.assignTaskToSubordinate(task, this.sessionUserID, subordinateID)
+      .subscribe();
+  }
+
+  approveTask(task: Task): void {
+    let taskID = task.taskID;
+    this.uncheckedTasks = this.uncheckedTasks.filter(t => t !== task);
+    this.managerService.approveTask(this.sessionUserID, taskID)
+      .subscribe();
+  }
+
+  declineTask(task: Task): void {
+    let taskID = task.taskID;
+    this.uncheckedTasks = this.uncheckedTasks.filter(t => t !== task);
+    this.managerService.declineTask(this.sessionUserID, taskID)
       .subscribe();
   }
 }
