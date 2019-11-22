@@ -56,6 +56,7 @@
   <br>
   <!-- (click) passes input value to add() and then clears the input -->
   <button mat-button (click)="add(taskDescription.value); taskDescription.value=''">
+    <mat-icon>save</mat-icon>
     Save task
   </button>
 </mat-expansion-panel>
@@ -113,6 +114,7 @@
         </mat-form-field>
         <br>
         <button mat-button (click)="update(task);">
+          <mat-icon>update</mat-icon>
           Update task
         </button>
         <div align="right">
@@ -130,6 +132,7 @@
         </mat-form-field>
         <br>
         <button mat-button (click)="sendToManager(task); taskReport.value=''">
+          <mat-icon>done</mat-icon>
           Send to my manager
         </button>
     </mat-step>
