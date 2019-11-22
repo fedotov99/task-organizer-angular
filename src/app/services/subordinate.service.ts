@@ -66,6 +66,18 @@ export class SubordinateService {
     );
   }
 
+  updateTaskInSubordinateTaskList(task: Task, subordinateID: string): Observable<any> {
+    // const id = ...; // TODO: session subordinate userID
+    const id = subordinateID; // TODO: delete it
+    const taskID = task.taskID;
+    const url = `${this.subordinatesUrl}/${id}/update`;
+
+    return this.http.put(url, task, this.httpOptions).pipe(
+      tap(_ => this.log(`updated taskID=${taskID} in subordinate's id=${id} task list`)),
+      catchError(this.handleError<any>('updateTask'))
+    );
+  }
+
   deleteTaskFromSubordinateTaskList(task: Task, subordinateID: string): Observable<Task> {
     // const id = ...; // TODO: session subordinate userID
     const id = subordinateID; // TODO: delete it

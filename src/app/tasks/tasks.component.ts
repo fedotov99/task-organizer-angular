@@ -77,7 +77,7 @@ export class TasksComponent implements OnInit {
   }
 
   update(task: Task): void {
-    this.taskService.updateTask(task)
+    this.subordinateService.updateTaskInSubordinateTaskList(task, this.sessionUserID)
       .subscribe();
     /*newTask => {
         this.tasks.push(newTask);

@@ -4,8 +4,15 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Task } from '../classes/task';
 import { MessageService } from './message.service';
-import {PriorityType} from '../classes/priority-type.enum';
 
+
+// ATTENTION! It is not recommended to call methods of this this service, because it works with
+// TaskController (handling all tasks in database),
+// without syncing with local user's data structures (localUserTasksList), except for task creating method,
+// which adds task to localUserTasksList just after task has been created in DB.
+// This service can be helpful for admin dashboard (if it is needed) or testing,
+// but if we work with user's account, we should call specific user service's methods
+// to be sure that user's local data structures are always up to date.
 
 @Injectable({
   providedIn: 'root'
@@ -85,12 +92,6 @@ export class TaskService {
   updateTask(task: Task): Observable<any> {
     const id = task.taskID;
     const url = `${this.tasksUrl}/${id}`;
-/*    const body = {
-      description: task.description,
-      report: task.report,
-      completed: task.completed,
-      priority: task.priority
-    };*/
 
     return this.http.put(url, task, this.httpOptions).pipe(
       tap(_ => this.log(`updated task id=${id}`)),
