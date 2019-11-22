@@ -4,6 +4,8 @@ import {MessageService} from "./message.service";
 import {Observable, of} from "rxjs";
 import {Manager} from "../classes/manager";
 import {catchError, tap} from "rxjs/operators";
+import {Task} from "../classes/task";
+import {Subordinate} from "../classes/subordinate";
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +27,30 @@ export class ManagerService {
         tap(_ => this.log('fetched managers')),
         catchError(this.handleError<Manager[]>('getManagers', []))
       );
+  }
+
+  getManagerByID(id: string): Observable<Manager> {
+    const url = `${this.managersUrl}/${id}`;
+    return this.http.get<Manager>(url).pipe(
+      tap(_ => this.log(`fetched manager id=${id}`)),
+      catchError(this.handleError<Manager>(`getManager id=${id}`))
+    );
+  }
+
+  getTasksOfManager(executorID: string): Observable<Task[]> {
+    const url = `${this.managersUrl}/${executorID}/getManagerTaskList`;
+    return this.http.get<Task[]>(url).pipe(
+      tap(_ => this.log(`fetched tasks of manager ID=${executorID}`)),
+      catchError(this.handleError<Task[]>(`tasks of manager ID=${executorID}`))
+    );
+  }
+
+  getSubordinatesOfManager(managerID: string): Observable<Subordinate[]> {
+    const url = `${this.managersUrl}/${managerID}/getSubordinateList`;
+    return this.http.get<Subordinate[]>(url).pipe(
+      tap(_ => this.log(`fetched subordinates of manager ID=${managerID}`)),
+      catchError(this.handleError<Subordinate[]>(`subordinates of manager ID=${managerID}`))
+    );
   }
 
   addManager(managerName: string): Observable<Manager> {
@@ -52,6 +78,42 @@ export class ManagerService {
     return this.http.put(url, manager, this.httpOptions).pipe(
       tap(_ => this.log(`updated manager id=${id}`)),
       catchError(this.handleError<any>('updateManager'))
+    );
+  }
+
+  updateTaskInManagerTaskList(task: Task, managerID: string): Observable<any> {
+    // const id = ...; // TODO: session manager userID
+    const id = managerID; // TODO: delete it
+    const taskID = task.taskID;
+    const url = `${this.managersUrl}/${id}/update`;
+
+    return this.http.put(url, task, this.httpOptions).pipe(
+      tap(_ => this.log(`updated taskID=${taskID} in manager's id=${id} task list`)),
+      catchError(this.handleError<any>('updateTask'))
+    );
+  }
+
+  deleteTaskFromManagerTaskList(task: Task, managerID: string): Observable<Task> {
+    // const id = ...; // TODO: session manager userID
+    const id = managerID; // TODO: delete it
+    const taskID = task.taskID;
+    const url = `${this.managersUrl}/${id}/delete?taskID=${taskID}`;
+
+    return this.http.delete<Task>(url, this.httpOptions).pipe(
+      tap(_ => this.log(`deleted taskID=${taskID} from manager's id=${id} task list`)),
+      catchError(this.handleError<Task>('deleteTaskFromManagerTaskList'))
+    );
+  }
+
+  assignTaskToSubordinate(task: Task, managerID: string, subordinateID: string) {
+    // const id = ...; // TODO: session subordinate userID
+    const id = managerID; // TODO: delete it
+    const taskID = task.taskID;
+    const url = `${this.managersUrl}/${id}/assignTaskToSubordinate?taskID=${taskID}&subordinateID=${subordinateID}`;
+
+    return this.http.post(url, this.httpOptions).pipe(
+      tap(_ => this.log(`assigned taskID=${taskID} to subordinateID=${subordinateID} of managerID=${managerID}`)),
+      catchError(this.handleError<Task>('assignTaskToSubordinate'))
     );
   }
 
