@@ -1,6 +1,8 @@
+<h2>About me: </h2>
+
 <mat-expansion-panel [expanded]="false" hideToggle>
   <mat-expansion-panel-header>
-    <mat-icon>face</mat-icon>
+    <mat-icon>person</mat-icon>
     <mat-panel-title>
       {{manager.name}}
     </mat-panel-title>
@@ -15,6 +17,8 @@
   <br>
 </mat-expansion-panel>
 
+<h2>List of my subordinates: </h2>
+
 <mat-expansion-panel *ngFor="let subordinate of managerSubordinates" [expanded]="false" hideToggle>
   <mat-expansion-panel-header>
     <mat-icon>face</mat-icon>
@@ -22,7 +26,7 @@
       {{subordinate.name}}
     </mat-panel-title>
     <mat-panel-description>
-      My subordinates
+      My subordinate
     </mat-panel-description>
   </mat-expansion-panel-header>
   <mat-label>userID: </mat-label>
@@ -69,16 +73,13 @@
   <br>
   <!--  TODO: delete it:-->
   <br>
-  <mat-form-field class="example-full-width">
-    <textarea #taskExecutor matInput placeholder="Input task executorID"></textarea>
-  </mat-form-field>
   <!-- (click) passes input value to add() and then clears the input -->
-  <button mat-button (click)="add(taskDescription.value, taskExecutor.value); taskDescription.value=''">
+  <button mat-button (click)="add(taskDescription.value); taskDescription.value=''">
     Save task
   </button>
 </mat-expansion-panel>
 
-<h2>Task list:</h2>
+<h2>List of my tasks:</h2>
 
 <mat-expansion-panel *ngFor="let task of tasks" [expanded]="false" hideToggle>
   <mat-expansion-panel-header>
@@ -151,4 +152,46 @@
       </button>
     </mat-step>
   </mat-horizontal-stepper>
+</mat-expansion-panel>
+
+<h2>List of unchecked tasks from my subordinates:</h2>
+
+<mat-expansion-panel *ngFor="let task of uncheckedTasks" [expanded]="false" hideToggle>
+  <mat-expansion-panel-header>
+    <mat-icon>assignment</mat-icon>
+    <mat-panel-title>
+      {{task.description}}
+      <!--      <mat-icon *ngIf="task.priority == isUrgent">watch_later</mat-icon>   &lt;!&ndash; TODO: why doesn't work??? &ndash;&gt;-->
+    </mat-panel-title>
+    <mat-panel-description>
+
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+      <mat-label>taskID: </mat-label>
+      {{task.taskID}}
+      <br>
+      <mat-label>Priority: </mat-label>
+      {{task.priority}}
+      <br>
+      <mat-label>Completed: </mat-label>
+      {{task.completed}}
+      <br>
+      <mat-label>Description: </mat-label>
+      {{task.description}}
+      <br>
+      <mat-label>ExecutorID: </mat-label>
+      {{task.executorID}}
+      <br>
+      <mat-label>Report: </mat-label>
+      {{task.report}}
+      <br>
+      <br>
+      <br>
+      <br>
+      <button mat-button color="primary" (click)="approveTask(task);">
+        Approve task
+      </button>
+      <button mat-button color="warn" (click)="declineTask(task);">
+        Decline task
+      </button>
 </mat-expansion-panel>
