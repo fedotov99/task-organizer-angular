@@ -5,11 +5,11 @@ import {PriorityType} from '../classes/priority-type.enum';
 import {SubordinateService} from "../services/subordinate.service";
 
 @Component({
-  selector: 'app-tasks',
-  templateUrl: './tasks.component.html',
-  styleUrls: ['./tasks.component.css']
+  selector: 'app-subordinate-tasks',
+  templateUrl: './subordinate-tasks.component.html',
+  styleUrls: ['./subordinate-tasks.component.css']
 })
-export class TasksComponent implements OnInit {
+export class SubordinateTasksComponent implements OnInit {
   tasks: Task[];
   selectedPriority = 'NORMAL';
   priorityOfCurrentTask: PriorityType = PriorityType.NORMAL;

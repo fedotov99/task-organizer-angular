@@ -65,6 +65,9 @@
         <mat-label>Description: </mat-label>
         {{task.description}}
         <br>
+        <mat-label>Report: </mat-label>
+        {{task.report}}
+        <br>
         <mat-label>ExecutorID: </mat-label>
         {{task.executorID}}
         <br>
@@ -98,7 +101,7 @@
         <mat-label>Please, write the report for your manager:</mat-label>
         <br>
         <mat-form-field class="example-full-width">
-          <textarea #taskReport matInput placeholder="Input task report"></textarea>
+          <textarea #taskReport matInput placeholder="Input task report" [(ngModel)]="task.report"></textarea>
         </mat-form-field>
         <br>
         <button mat-button (click)="sendToManager(task); taskReport.value=''">
