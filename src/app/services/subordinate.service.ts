@@ -98,7 +98,6 @@ export class SubordinateService {
     );
   }
 
-  // TODO: WE MUST UPDATE TASK (report and completed)
   sendToManager(task: Task, subordinateID: string) {
     // const id = ...; // TODO: session subordinate userID
     const id = subordinateID; // TODO: delete it

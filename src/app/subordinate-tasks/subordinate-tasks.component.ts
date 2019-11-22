@@ -11,8 +11,8 @@ import {Subordinate} from "../classes/subordinate";
   styleUrls: ['./subordinate-tasks.component.css']
 })
 export class SubordinateTasksComponent implements OnInit {
-  tasks: Task[];
   subordinate: Subordinate;
+  tasks: Task[];
   selectedPriority = 'NORMAL';
   priorityOfCurrentTask: PriorityType = PriorityType.NORMAL;
   isUrgent: PriorityType = PriorityType.URGENT;
@@ -23,7 +23,7 @@ export class SubordinateTasksComponent implements OnInit {
 
   ngOnInit() {
     // this.getTasks();
-    this.getTasksByExecutor(this.sessionUserID); // TODO: pass session userID
+    this.getTasksByExecutor(this.sessionUserID);
     this.getSubordinateByID(this.sessionUserID);
   }
 
@@ -67,7 +67,7 @@ export class SubordinateTasksComponent implements OnInit {
     }
   }
 
-  add(description: string, executorID: string): void { // TODO: delete 2nd param
+  add(description: string): void {
     description = description.trim();
     if (!description) { return; }
     this.handlePriorityOfCreatedTask();
@@ -75,8 +75,7 @@ export class SubordinateTasksComponent implements OnInit {
     let task = new Task();
     task.description = description;
     task.priority = this.priorityOfCurrentTask;
-    // task.executorID = ...; // TODO: pass session userID
-    task.executorID = executorID;
+    task.executorID = this.sessionUserID;
 
     this.taskService.addTask(task)
       .subscribe(task => {
@@ -94,11 +93,10 @@ export class SubordinateTasksComponent implements OnInit {
 
   sendToManager(task: Task): void {
     this.tasks = this.tasks.filter(t => t !== task);
-    this.subordinateService.sendToManager(task, this.sessionUserID) // Todo: delete second param (session)
+    this.subordinateService.sendToManager(task, this.sessionUserID)
       .subscribe();
   }
 
-  // TODO: call to subordinate service special method
   delete(task: Task): void {
     this.tasks = this.tasks.filter(t => t !== task);
     // this.taskService.deleteTask(task).subscribe();
