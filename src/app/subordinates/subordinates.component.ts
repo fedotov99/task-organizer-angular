@@ -5,6 +5,7 @@ import {SubordinateService} from "../services/subordinate.service";
 import {Manager} from "../classes/manager";
 import {ManagerService} from "../services/manager.service";
 
+// This component is for administration and testing!
 @Component({
   selector: 'app-subordinates',
   templateUrl: './subordinates.component.html',

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Manager} from '../classes/manager';
 import {ManagerService} from "../services/manager.service";
 
+// This component is for administration and testing!
 @Component({
   selector: 'app-managers',
   templateUrl: './managers.component.html',
