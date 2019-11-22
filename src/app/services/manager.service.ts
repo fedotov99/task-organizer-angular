@@ -45,6 +45,14 @@ export class ManagerService {
     );
   }
 
+  getUncheckedTasksList(managerID: string): Observable<Task[]> {
+    const url = `${this.managersUrl}/${managerID}/getUncheckedTaskList`;
+    return this.http.get<Task[]>(url).pipe(
+      tap(_ => this.log(`fetched unchecked tasks of manager ID=${managerID}`)),
+      catchError(this.handleError<Task[]>(`getUncheckedTasksList of manager ID=${managerID}`))
+    );
+  }
+
   getSubordinatesOfManager(managerID: string): Observable<Subordinate[]> {
     const url = `${this.managersUrl}/${managerID}/getSubordinateList`;
     return this.http.get<Subordinate[]>(url).pipe(
@@ -114,6 +122,28 @@ export class ManagerService {
     return this.http.post(url, this.httpOptions).pipe(
       tap(_ => this.log(`assigned taskID=${taskID} to subordinateID=${subordinateID} of managerID=${managerID}`)),
       catchError(this.handleError<Task>('assignTaskToSubordinate'))
+    );
+  }
+
+  approveTask(managerID: string, taskID: string) {
+    // const id = ...; // TODO: session subordinate userID
+    const id = managerID; // TODO: delete it
+    const url = `${this.managersUrl}/${id}/approveTask?taskID=${taskID}`;
+
+    return this.http.post(url, this.httpOptions).pipe(
+      tap(_ => this.log(`approved taskID=${taskID} in unchecked task list of managerID=${managerID}`)),
+      catchError(this.handleError<Task>('approveTask'))
+    );
+  }
+
+  declineTask(managerID: string, taskID: string) {
+    // const id = ...; // TODO: session subordinate userID
+    const id = managerID; // TODO: delete it
+    const url = `${this.managersUrl}/${id}/declineTask?taskID=${taskID}`;
+
+    return this.http.post(url, this.httpOptions).pipe(
+      tap(_ => this.log(`declined taskID=${taskID} in unchecked task list of managerID=${managerID}`)),
+      catchError(this.handleError<Task>('declineTask'))
     );
   }
 
