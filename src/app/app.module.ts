@@ -16,6 +16,7 @@ import {MatExpansionModule, MatFormFieldModule, MatIconModule, MatInputModule} f
 import {MatListModule} from '@angular/material/list';
 import {MatButtonModule} from '@angular/material/button';
 import {MatStepperModule} from "@angular/material/stepper";
+import { ManagerTasksComponent } from './manager-tasks/manager-tasks.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import {MatStepperModule} from "@angular/material/stepper";
     SubordinateTasksComponent,
     ManagersComponent,
     SubordinatesComponent,
-    MessagesComponent
+    MessagesComponent,
+    ManagerTasksComponent
   ],
   imports: [
     BrowserModule,
