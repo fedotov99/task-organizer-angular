@@ -1,0 +1,27 @@
+<h1>Welcome to task organizer!</h1>
+
+<mat-label>To sign up, please, choose what type of account you want to create:</mat-label>
+
+  <mat-tab-group>
+    <mat-tab label="Manager">
+      <mat-form-field class="example-full-width">
+        <input matInput type="email" #managerName placeholder="Input your name">
+      </mat-form-field>
+      <br>
+      <mat-form-field class="example-full-width">
+        <input matInput type="email" #managerEmail placeholder="Input your email">
+      </mat-form-field>
+      <br>
+      <mat-form-field class="example-full-width">
+        <input matInput type="password" #managerPassword placeholder="Password">
+      </mat-form-field>
+      <br>
+      <!-- (click) passes input value to add() and then clears the input -->
+      <button mat-button (click)="registerManager(managerName.value, managerEmail.value, managerPassword.value); managerName.value=''; managerEmail.value='';managerPassword.value=''">
+        <mat-icon>person_add</mat-icon>
+        Sign up
+      </button>
+    </mat-tab>
+    <mat-tab label="Subordinate"></mat-tab>
+  </mat-tab-group>
+
