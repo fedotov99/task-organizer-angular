@@ -5,13 +5,17 @@ import {ManagerTasksComponent} from "./manager-tasks/manager-tasks.component";
 import {RegistrationComponent} from "./registration/registration.component";
 import {LoginComponent} from "./login/login.component";
 import {LogoutComponent} from "./logout/logout.component";
+import {ManagerGuardService} from "./services/manager-guard.service";
+import {SubordinateGuardService} from "./services/subordinate-guard.service";
+import {RegisterGuardService} from "./services/register-guard.service";
+import {LoginGuardService} from "./services/login-guard.service";
 
 const routes: Routes = [
-  { path: '', component: RegistrationComponent},
-  { path: 'login', component: LoginComponent},
-  { path: 'logout', component: LogoutComponent },
-  { path: 'subordinate', component: SubordinateTasksComponent},
-  { path: 'manager', component: ManagerTasksComponent}
+  { path: '', component: RegistrationComponent, canActivate:[RegisterGuardService]},
+  { path: '', component: SubordinateTasksComponent, canActivate:[SubordinateGuardService]},
+  { path: '', component: ManagerTasksComponent, canActivate:[ManagerGuardService]},
+  { path: 'login', component: LoginComponent, canActivate:[LoginGuardService]},
+  { path: 'logout', component: LogoutComponent }
 ];
 
 @NgModule({
