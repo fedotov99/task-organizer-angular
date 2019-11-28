@@ -26,7 +26,7 @@ export class ManagersComponent implements OnInit {
 /*    let manager: Manager = new Manager();
     manager.name = managerName;*/
 
-    this.managerService.addManager(managerName)
+    this.managerService.addManager(managerName, '', '')
       .subscribe(manager => {
         this.managers.push(manager);
       });

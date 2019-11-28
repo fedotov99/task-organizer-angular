@@ -3,25 +3,69 @@
 <mat-label>To sign up, please, choose what type of account you want to create:</mat-label>
 
   <mat-tab-group>
-    <mat-tab label="Manager">
-      <mat-form-field class="example-full-width">
-        <input matInput type="email" #managerName placeholder="Input your name">
+    <mat-tab label="Subordinate">
+      <br>
+      <br>
+      <div align="center">
+        <mat-form-field class="example-full-width">
+          <input matInput type="email" #subordinateName placeholder="Input your name">
+        </mat-form-field>
+        <br>
+        <mat-form-field class="example-full-width">
+          <input matInput type="email" #subordinateEmail placeholder="Input your email">
+        </mat-form-field>
+        <br>
+        <mat-form-field class="example-full-width">
+          <input matInput type="password" #subordinatePassword placeholder="Password">
+        </mat-form-field>
+        <br>
+      <mat-form-field>
+        <mat-label>Choose subordinate position:</mat-label>
+        <mat-select [(value)]="selectedPosition">
+          <mat-option value="Junior">Junior</mat-option>
+          <mat-option value="Middle">Middle</mat-option>
+          <mat-option value="Senior">Senior</mat-option>
+        </mat-select>
       </mat-form-field>
       <br>
-      <mat-form-field class="example-full-width">
-        <input matInput type="email" #managerEmail placeholder="Input your email">
+      <mat-form-field>
+        <mat-label>Choose manager of subordinate:</mat-label>
+        <mat-select [(value)]="selectedManagerID">
+          <mat-option *ngFor="let manager of managers" value={{manager.userID}}>{{manager.name}}</mat-option>
+        </mat-select>
       </mat-form-field>
-      <br>
-      <mat-form-field class="example-full-width">
-        <input matInput type="password" #managerPassword placeholder="Password">
-      </mat-form-field>
-      <br>
-      <!-- (click) passes input value to add() and then clears the input -->
-      <button mat-button (click)="registerManager(managerName.value, managerEmail.value, managerPassword.value); managerName.value=''; managerEmail.value='';managerPassword.value=''">
-        <mat-icon>person_add</mat-icon>
-        Sign up
-      </button>
+        <br>
+        <button mat-button (click)="registerSubordinate(subordinateName.value, subordinateEmail.value, subordinatePassword.value, 0); subordinateName.value=''; subordinateEmail.value=''; subordinatePassword.value=''">
+          <mat-icon>person_add</mat-icon>
+          Sign up
+        </button>
+
+      </div>
     </mat-tab>
-    <mat-tab label="Subordinate"></mat-tab>
+
+
+    <mat-tab label="Manager">
+      <br>
+      <br>
+      <div align="center">
+        <mat-form-field class="example-full-width">
+          <input matInput type="email" #managerName placeholder="Input your name">
+        </mat-form-field>
+        <br>
+        <mat-form-field class="example-full-width">
+          <input matInput type="email" #managerEmail placeholder="Input your email">
+        </mat-form-field>
+        <br>
+        <mat-form-field class="example-full-width">
+          <input matInput type="password" #managerPassword placeholder="Password">
+        </mat-form-field>
+        <br>
+        <!-- (click) passes input value to add() and then clears the input -->
+        <button mat-button (click)="registerManager(managerName.value, managerEmail.value, managerPassword.value); managerName.value=''; managerEmail.value='';managerPassword.value=''">
+          <mat-icon>person_add</mat-icon>
+          Sign up
+        </button>
+      </div>
+    </mat-tab>
   </mat-tab-group>
 

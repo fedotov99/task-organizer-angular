@@ -61,9 +61,15 @@ export class ManagerService {
     );
   }
 
-  addManager(managerName: string): Observable<Manager> {
-    const url = `${this.managersUrl}/?name=${managerName}`;
-    return this.http.post<Manager>(url, this.httpOptions).pipe(
+  addManager(managerName: string, managerEmail: string, managerPassword: string): Observable<Manager> {
+    // const url = `${this.managersUrl}/?name=${managerName}`;
+    const url = `${this.managersUrl}`;
+    let manager: Manager = new Manager();
+    manager.name = managerName;
+    manager.email = managerEmail;
+    manager.password = managerPassword; // TODO: encode password
+
+    return this.http.post<Manager>(url, manager, this.httpOptions).pipe(
       tap((newManager: Manager) => this.log(`added manager w/ id=${newManager.userID}`)),
       catchError(this.handleError<Manager>('addManager'))
     );

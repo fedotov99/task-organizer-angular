@@ -22,12 +22,13 @@ export class ManagerTasksComponent implements OnInit {
   priorityOfCurrentTask: PriorityType = PriorityType.NORMAL;
   isUrgent: PriorityType = PriorityType.URGENT;
 
-  sessionUserID: string = "5dcf05b9c201be223ceda3df"; // TODO: delete
+  sessionUserID: string; // = "5dcf05b9c201be223ceda3df"; // TODO: delete
 
   constructor(private taskService: TaskService, private managerService: ManagerService) { }
 
   ngOnInit() {
     // this.getTasks();
+    this.sessionUserID = sessionStorage.getItem('sessionUserID');
     this.getTasksByExecutor(this.sessionUserID);
     this.getUncheckedTasksList(this.sessionUserID);
     this.getManagerByID(this.sessionUserID);
