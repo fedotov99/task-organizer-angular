@@ -40,6 +40,11 @@
     margin: 0 16px;
   }
 
+  .toolbar button {;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
   .toolbar #twitter-logo {
     height: 40px;
     margin: 0 16px;
@@ -298,6 +303,9 @@
     <mat-icon>book</mat-icon>
     </div>
   <span>{{title}}</span>
+    <button *ngIf="!authenticationService.isUserLoggedIn()" routerLink="/" class="nav-link">Sign Up</button>
+    <button *ngIf="!authenticationService.isUserLoggedIn()" routerLink="/login" class="nav-link">Login</button>
+    <button *ngIf="authenticationService.isUserLoggedIn()" routerLink="/logout" class="nav-link">LogOut</button>
     <div class="spacer"></div>
   <!--<a aria-label="Angular on twitter" target="_blank" rel="noopener" href="https://twitter.com/angular" title="Twitter">
 
@@ -349,7 +357,7 @@
 <!--  <app-managers></app-managers>-->
 <!--  <app-subordinates></app-subordinates>-->
 <!--  <app-messages></app-messages>-->
-  <router-outlet></router-outlet>-->
+  <router-outlet></router-outlet>
 
 
   <!--&lt;!&ndash; Resources &ndash;&gt;
