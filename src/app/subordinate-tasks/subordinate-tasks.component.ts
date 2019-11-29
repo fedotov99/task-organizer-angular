@@ -17,12 +17,12 @@ export class SubordinateTasksComponent implements OnInit {
   priorityOfCurrentTask: PriorityType = PriorityType.NORMAL;
   isUrgent: PriorityType = PriorityType.URGENT;
 
-  sessionUserID: string = "5dd66540c201be1af063db12"; // TODO: delete
+  sessionUserID: string; // TODO: delete
 
   constructor(private taskService: TaskService, private subordinateService: SubordinateService) { }
 
   ngOnInit() {
-    // this.getTasks();
+    this.sessionUserID = sessionStorage.getItem('sessionUserID');
     this.getTasksByExecutor(this.sessionUserID);
     this.getSubordinateByID(this.sessionUserID);
   }
