@@ -14,6 +14,11 @@ export class RegisterGuardService {
     if (!this.authenticationService.isUserLoggedIn())
       return true;
 
+    if (sessionStorage.getItem('role') == 'manager')
+      this.router.navigate(["manager"]);
+    if (sessionStorage.getItem('role') == 'subordinate')
+      this.router.navigate(["subordinate"]);
+
     return false;
   }
 }
