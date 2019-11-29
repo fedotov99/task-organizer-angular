@@ -17,12 +17,13 @@ export class ManagerTasksComponent implements OnInit {
   tasks: Task[];
   uncheckedTasks: Task[]; // list of tasks sent by subordinates for approval (or rejecting)
   managerSubordinates: Subordinate[]; // subordinates of this manager
+  subordinatesWithUrgentTasks: Subordinate[];
   selectedSubordinateID: string;
   selectedPriority = 'NORMAL';
   priorityOfCurrentTask: PriorityType = PriorityType.NORMAL;
   isUrgent: PriorityType = PriorityType.URGENT;
 
-  sessionUserID: string; // = "5dcf05b9c201be223ceda3df"; // TODO: delete
+  sessionUserID: string;
 
   constructor(private taskService: TaskService, private managerService: ManagerService) { }
 
@@ -33,6 +34,7 @@ export class ManagerTasksComponent implements OnInit {
     this.getUncheckedTasksList(this.sessionUserID);
     this.getManagerByID(this.sessionUserID);
     this.getSubordinatesOfManager(this.sessionUserID);
+    this.getSubordinatesWithUrgentTasks(this.sessionUserID);
   }
 
   getAllTasksFromDB(): void {
@@ -53,6 +55,11 @@ export class ManagerTasksComponent implements OnInit {
   getSubordinatesOfManager(managerID: string): void {
     this.managerService.getSubordinatesOfManager(managerID)
       .subscribe(managerSubordinates => this.managerSubordinates = managerSubordinates);
+  }
+
+  getSubordinatesWithUrgentTasks(managerID: string): void {
+    this.managerService.getSubordinatesWithUrgentTasks(managerID)
+      .subscribe(subordinatesWithUrgentTasks => this.subordinatesWithUrgentTasks = subordinatesWithUrgentTasks);
   }
 
   getManagerByID(managerID: string): void {
@@ -121,6 +128,12 @@ export class ManagerTasksComponent implements OnInit {
     let subordinateID: string = this.selectedSubordinateID;
     this.tasks = this.tasks.filter(t => t !== task);
     this.managerService.assignTaskToSubordinate(task, this.sessionUserID, subordinateID)
+      .subscribe();
+  }
+
+  completeTask(task: Task): void {
+    this.tasks = this.tasks.filter(t => t !== task);
+    this.managerService.completeTask(task, this.sessionUserID)
       .subscribe();
   }
 

@@ -71,6 +71,14 @@ export class ManagerService {
     );
   }
 
+  getSubordinatesWithUrgentTasks(managerID: string): Observable<Subordinate[]> {
+    const url = `${this.managersUrl}/${managerID}/getSubordinatesWithUrgentTasks`;
+    return this.http.get<Subordinate[]>(url).pipe(
+      tap(_ => this.log(`fetched subordinates with urgent tasks of manager ID=${managerID}`)),
+      catchError(this.handleError<Subordinate[]>(`getSubordinatesWithUrgentTasks of manager ID=${managerID}`))
+    );
+  }
+
   addManager(managerName: string, managerEmail: string, managerPassword: string): Observable<Manager> {
     // const url = `${this.managersUrl}/?name=${managerName}`;
     const url = `${this.managerRegisterUrl}`;
@@ -114,6 +122,17 @@ export class ManagerService {
     return this.http.put(url, task, this.httpOptions).pipe(
       tap(_ => this.log(`updated taskID=${taskID} in manager's id=${id} task list`)),
       catchError(this.handleError<any>('updateTask'))
+    );
+  }
+
+  completeTask(task: Task, managerID: string) {
+    const id = managerID;
+    const taskID = task.taskID;
+    const url = `${this.managersUrl}/${id}/complete`;
+
+    return this.http.post(url, task, this.httpOptions).pipe(
+      tap(_ => this.log(`completed taskID=${taskID} of managerID=${id}`)),
+      catchError(this.handleError<Task>('completeTask'))
     );
   }
 

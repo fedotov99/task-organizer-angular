@@ -135,6 +135,7 @@
             <mat-icon>update</mat-icon>
             Update task
           </button>
+<!--          TODO: complete button-->
           <div align="right">
             <button class="delete" title="delete task"
                     (click)="delete(task)"><mat-icon>delete_sweep</mat-icon>
@@ -154,6 +155,19 @@
           <button mat-button (click)="assignTaskToSubordinate(task);">
             <mat-icon>send</mat-icon>
             Assign to subordinate
+          </button>
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>Complete task</ng-template>
+          <mat-label>Please, write the report:</mat-label>
+          <br>
+          <mat-form-field class="example-full-width">
+            <textarea #taskReport matInput placeholder="Input task report" [(ngModel)]="task.report"></textarea>
+          </mat-form-field>
+          <br>
+          <button mat-button (click)="completeTask(task); taskReport.value=''">
+            <mat-icon>done</mat-icon>
+            Complete task
           </button>
         </mat-step>
       </mat-horizontal-stepper>
@@ -202,6 +216,35 @@
         <mat-icon>assignment_return</mat-icon>
         Decline task
       </button>
+    </mat-expansion-panel>
+  </mat-tab>
+
+  <mat-tab label="Set eyes on">
+    <h2>These my subordinates have urgent tasks:</h2>
+    <mat-expansion-panel *ngFor="let subordinate of subordinatesWithUrgentTasks" [expanded]="false" hideToggle>
+      <mat-expansion-panel-header>
+        <mat-icon>face</mat-icon>
+        <mat-panel-title>
+          {{subordinate.name}}
+        </mat-panel-title>
+        <mat-panel-description>
+          My subordinate
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <mat-label>userID: </mat-label>
+      {{subordinate.userID}}
+      <br>
+      <mat-label>Manager ID: </mat-label>
+      {{subordinate.managerID}}
+      <br>
+      <mat-label>Score: </mat-label>
+      {{subordinate.score}}
+      <br>
+      <mat-label>Position: </mat-label>
+      {{subordinate.position}}
+      <br>
+      <br>
+      <br>
     </mat-expansion-panel>
   </mat-tab>
 </mat-tab-group>
