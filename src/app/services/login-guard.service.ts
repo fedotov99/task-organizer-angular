@@ -14,7 +14,10 @@ export class LoginGuardService {
     if (!this.authenticationService.isUserLoggedIn())
       return true;
 
-    this.router.navigate(['']);
+    if (sessionStorage.getItem('role') == 'manager')
+      this.router.navigate(["manager"]);
+    if (sessionStorage.getItem('role') == 'subordinate')
+      this.router.navigate(["subordinate"]);
 
     return false;
   }

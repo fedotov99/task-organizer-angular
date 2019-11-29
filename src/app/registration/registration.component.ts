@@ -48,7 +48,7 @@ export class RegistrationComponent implements OnInit {
 
   // because when we create subordinate, we have to choose the existing manager
   getManagers(): void {
-    this.managerService.getManagers()
+    this.managerService.getManagersWithoutAuthentication()
       .subscribe(managers => this.managers = managers);
   }
 
