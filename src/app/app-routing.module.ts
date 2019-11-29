@@ -12,8 +12,8 @@ import {LoginGuardService} from "./services/login-guard.service";
 
 const routes: Routes = [
   { path: '', component: RegistrationComponent, canActivate:[RegisterGuardService]},
-  { path: '', component: SubordinateTasksComponent, canActivate:[SubordinateGuardService]},
-  { path: '', component: ManagerTasksComponent, canActivate:[ManagerGuardService]},
+  { path: 'subordinate', component: SubordinateTasksComponent, canActivate:[SubordinateGuardService]},
+  { path: 'manager', component: ManagerTasksComponent, canActivate:[ManagerGuardService]},
   { path: 'login', component: LoginComponent, canActivate:[LoginGuardService]},
   { path: 'logout', component: LogoutComponent }
 ];
