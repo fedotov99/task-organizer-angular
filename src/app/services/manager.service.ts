@@ -12,6 +12,8 @@ import {Subordinate} from "../classes/subordinate";
 })
 export class ManagerService {
   private managersUrl = 'http://localhost:8080/manager';  // URL to web api
+  private managerRegisterUrl = 'http://localhost:8080/create/manager';
+  private getManagersWithoutAuthenticationUrl = 'http://localhost:8080/util/manager';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -26,6 +28,14 @@ export class ManagerService {
       .pipe(
         tap(_ => this.log('fetched managers')),
         catchError(this.handleError<Manager[]>('getManagers', []))
+      );
+  }
+
+  getManagersWithoutAuthentication(): Observable<Manager[]> {
+    return this.http.get<Manager[]>(this.getManagersWithoutAuthenticationUrl)
+      .pipe(
+        tap(_ => this.log('fetched managers without authentication')),
+        catchError(this.handleError<Manager[]>('getManagersWithoutAuthentication', []))
       );
   }
 
@@ -63,7 +73,7 @@ export class ManagerService {
 
   addManager(managerName: string, managerEmail: string, managerPassword: string): Observable<Manager> {
     // const url = `${this.managersUrl}/?name=${managerName}`;
-    const url = `${this.managersUrl}`;
+    const url = `${this.managerRegisterUrl}`;
     let manager: Manager = new Manager();
     manager.name = managerName;
     manager.email = managerEmail;

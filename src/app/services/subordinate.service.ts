@@ -12,6 +12,7 @@ import {Subordinate} from "../classes/subordinate";
 })
 export class SubordinateService {
   private subordinatesUrl = 'http://localhost:8080/subordinate';  // URL to web api
+  private subordinateRegisterUrl = 'http://localhost:8080/create/subordinate';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -47,7 +48,7 @@ export class SubordinateService {
 
   addSubordinate(subordinate: Subordinate): Observable<Subordinate> {
     let managerID: string = subordinate.managerID;
-    const url = `${this.subordinatesUrl}/?managerID=${managerID}`;
+    const url = `${this.subordinateRegisterUrl}/?managerID=${managerID}`;
     return this.http.post<Subordinate>(url, subordinate, this.httpOptions).pipe(
       tap((newSubordinate: Subordinate) => this.log(`added subordinate w/ id=${newSubordinate.userID}`)),
       catchError(this.handleError<Subordinate>('addSubordinate'))
