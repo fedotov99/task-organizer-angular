@@ -59,7 +59,7 @@ export class RegistrationComponent implements OnInit {
       });
 
     // sessionStorage.setItem('sessionUserID', this.manager.userID);
-    // this.router.navigate(['manager']);
+    this.router.navigate(['login']);
   }
 
   registerSubordinate(subordinateName: string, subordinateEmail: string, subordinatePassword: string, score: Number): void {
@@ -77,5 +77,7 @@ export class RegistrationComponent implements OnInit {
       .subscribe(subordinate => {
         this.subordinate = subordinate;
       });
+
+    this.router.navigate(['login']);
   }
 }
