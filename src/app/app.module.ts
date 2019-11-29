@@ -17,6 +17,11 @@ import {MatListModule} from '@angular/material/list';
 import {MatButtonModule} from '@angular/material/button';
 import {MatStepperModule} from "@angular/material/stepper";
 import { ManagerTasksComponent } from './manager-tasks/manager-tasks.component';
+import {MatTabsModule} from "@angular/material/tabs";
+import { RegistrationComponent } from './registration/registration.component';
+import { LoginComponent } from './login/login.component';
+import { LogoutComponent } from './logout/logout.component';
+import {MatMenuModule} from "@angular/material/menu";
 
 @NgModule({
   declarations: [
@@ -25,7 +30,10 @@ import { ManagerTasksComponent } from './manager-tasks/manager-tasks.component';
     ManagersComponent,
     SubordinatesComponent,
     MessagesComponent,
-    ManagerTasksComponent
+    ManagerTasksComponent,
+    RegistrationComponent,
+    LoginComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +49,9 @@ import { ManagerTasksComponent } from './manager-tasks/manager-tasks.component';
     MatExpansionModule,
     MatIconModule,
     MatStepperModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatTabsModule,
+    MatMenuModule
   ],
   providers: [TaskService],
   bootstrap: [AppComponent]
