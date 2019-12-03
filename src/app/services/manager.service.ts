@@ -16,7 +16,10 @@ export class ManagerService {
   private getManagersWithoutAuthenticationUrl = 'http://localhost:8080/util/manager';
 
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    headers: new HttpHeaders({
+      'Content-Type':  'application/json',
+      'Authorization': 'Basic ' + sessionStorage.getItem('token')
+    })
   };
 
   constructor(
@@ -41,7 +44,8 @@ export class ManagerService {
 
   getManagerByID(id: string): Observable<Manager> {
     const url = `${this.managersUrl}/${id}`;
-    return this.http.get<Manager>(url).pipe(
+
+    return this.http.get<Manager>(url, this.httpOptions).pipe(
       tap(_ => this.log(`fetched manager id=${id}`)),
       catchError(this.handleError<Manager>(`getManager id=${id}`))
     );

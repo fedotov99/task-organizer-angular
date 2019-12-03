@@ -15,7 +15,8 @@ const routes: Routes = [
   { path: 'subordinate', component: SubordinateTasksComponent, canActivate:[SubordinateGuardService]},
   { path: 'manager', component: ManagerTasksComponent, canActivate:[ManagerGuardService]},
   { path: 'login', component: LoginComponent, canActivate:[LoginGuardService]},
-  { path: 'logout', component: LogoutComponent }
+  { path: 'logout', component: LogoutComponent },
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({

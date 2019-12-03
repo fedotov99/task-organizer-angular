@@ -25,11 +25,11 @@ export class LoginComponent implements OnInit {
       .subscribe(authRespond => {
         this.authRespond = authRespond;
 
-
         if (this.authRespond.success == false) {
           this.invalidLogin = true;
           this.router.navigate(['login']);
         } else if (this.authRespond.success == true) {
+          sessionStorage.setItem('token', btoa(this.email + ':' + this.password));
           sessionStorage.setItem('sessionUserID', this.authRespond.sessionUserID);
           if (this.authRespond.role == "ROLE_MANAGER") {
             sessionStorage.setItem('role', 'manager');

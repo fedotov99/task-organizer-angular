@@ -26,6 +26,7 @@ export class AuthenticationService {
     authBody.email = email;
     authBody.password = password;
 
+    // const headers = new HttpHeaders({ Authorization: 'Basic ' + btoa(email + ':' + password) }, );
     return this.http.post<AuthRespond>(url, authBody, this.httpOptions).pipe(
       tap((newAuthRespond: AuthRespond) => this.log(`authentication respond`)),
       catchError(this.handleError<AuthRespond>('authenticate'))
@@ -63,6 +64,6 @@ export class AuthenticationService {
   }
 
   private log(message: string) {
-    this.messageService.add(`ManagerService: ${message}`);
+    this.messageService.add(`AuthenticationService: ${message}`);
   }
 }
