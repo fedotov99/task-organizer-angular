@@ -6,5 +6,5 @@ export class Task {
   report: string;
   completed: boolean;
   priority: PriorityType;
-  executorID: string; // todo: when creat task, don't forget to add task to user
+  executorID: string;
 }

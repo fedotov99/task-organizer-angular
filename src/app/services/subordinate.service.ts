@@ -76,8 +76,7 @@ export class SubordinateService {
   }
 
   updateTaskInSubordinateTaskList(task: Task, subordinateID: string): Observable<any> {
-    // const id = ...; // TODO: session subordinate userID
-    const id = subordinateID; // TODO: delete it
+    const id = subordinateID;
     const taskID = task.taskID;
     const url = `${this.subordinatesUrl}/${id}/update`;
 
@@ -88,8 +87,7 @@ export class SubordinateService {
   }
 
   deleteTaskFromSubordinateTaskList(task: Task, subordinateID: string): Observable<Task> {
-    // const id = ...; // TODO: session subordinate userID
-    const id = subordinateID; // TODO: delete it
+    const id = subordinateID;
     const taskID = task.taskID;
     const url = `${this.subordinatesUrl}/${id}/delete?taskID=${taskID}`;
 
@@ -100,8 +98,7 @@ export class SubordinateService {
   }
 
   sendToManager(task: Task, subordinateID: string) {
-    // const id = ...; // TODO: session subordinate userID
-    const id = subordinateID; // TODO: delete it
+    const id = subordinateID;
     const taskID = task.taskID;
     const url = `${this.subordinatesUrl}/${id}/complete`;
 

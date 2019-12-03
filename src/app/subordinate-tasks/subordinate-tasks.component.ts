@@ -17,7 +17,7 @@ export class SubordinateTasksComponent implements OnInit {
   priorityOfCurrentTask: PriorityType = PriorityType.NORMAL;
   isUrgent: PriorityType = PriorityType.URGENT;
 
-  sessionUserID: string; // TODO: delete
+  sessionUserID: string;
 
   constructor(private taskService: TaskService, private subordinateService: SubordinateService) { }
 

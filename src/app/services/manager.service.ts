@@ -114,8 +114,7 @@ export class ManagerService {
   }
 
   updateTaskInManagerTaskList(task: Task, managerID: string): Observable<any> {
-    // const id = ...; // TODO: session manager userID
-    const id = managerID; // TODO: delete it
+    const id = managerID;
     const taskID = task.taskID;
     const url = `${this.managersUrl}/${id}/update`;
 
@@ -137,8 +136,7 @@ export class ManagerService {
   }
 
   deleteTaskFromManagerTaskList(task: Task, managerID: string): Observable<Task> {
-    // const id = ...; // TODO: session manager userID
-    const id = managerID; // TODO: delete it
+    const id = managerID;
     const taskID = task.taskID;
     const url = `${this.managersUrl}/${id}/delete?taskID=${taskID}`;
 
@@ -149,8 +147,7 @@ export class ManagerService {
   }
 
   assignTaskToSubordinate(task: Task, managerID: string, subordinateID: string) {
-    // const id = ...; // TODO: session subordinate userID
-    const id = managerID; // TODO: delete it
+    const id = managerID;
     const taskID = task.taskID;
     const url = `${this.managersUrl}/${id}/assignTaskToSubordinate?taskID=${taskID}&subordinateID=${subordinateID}`;
 
@@ -161,8 +158,7 @@ export class ManagerService {
   }
 
   approveTask(managerID: string, taskID: string) {
-    // const id = ...; // TODO: session subordinate userID
-    const id = managerID; // TODO: delete it
+    const id = managerID;
     const url = `${this.managersUrl}/${id}/approveTask?taskID=${taskID}`;
 
     return this.http.post(url, this.httpOptions).pipe(
@@ -172,8 +168,7 @@ export class ManagerService {
   }
 
   declineTask(managerID: string, taskID: string) {
-    // const id = ...; // TODO: session subordinate userID
-    const id = managerID; // TODO: delete it
+    const id = managerID;
     const url = `${this.managersUrl}/${id}/declineTask?taskID=${taskID}`;
 
     return this.http.post(url, this.httpOptions).pipe(
