@@ -49,7 +49,7 @@ export class SubordinateService {
   addSubordinate(subordinate: Subordinate): Observable<Subordinate> {
     let managerID: string = subordinate.managerID;
     const url = `${this.subordinateRegisterUrl}/?managerID=${managerID}`;
-    return this.http.post<Subordinate>(url, subordinate, this.httpOptions).pipe(
+    return this.http.post<Subordinate>(url, subordinate).pipe(
       tap((newSubordinate: Subordinate) => this.log(`added subordinate w/ id=${newSubordinate.userID}`)),
       catchError(this.handleError<Subordinate>('addSubordinate'))
     );

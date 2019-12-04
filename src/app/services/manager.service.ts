@@ -91,7 +91,7 @@ export class ManagerService {
     manager.email = managerEmail;
     manager.password = managerPassword; // TODO: encode password
 
-    return this.http.post<Manager>(url, manager, this.httpOptions).pipe(
+    return this.http.post<Manager>(url, manager).pipe(
       tap((newManager: Manager) => this.log(`added manager w/ id=${newManager.userID}`)),
       catchError(this.handleError<Manager>('addManager'))
     );
