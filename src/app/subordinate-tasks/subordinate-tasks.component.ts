@@ -77,7 +77,7 @@ export class SubordinateTasksComponent implements OnInit {
     task.priority = this.priorityOfCurrentTask;
     task.executorID = this.sessionUserID;
 
-    this.taskService.addTask(task)
+    this.subordinateService.addTask(task)
       .subscribe(task => {
         this.tasks.push(task);
       });

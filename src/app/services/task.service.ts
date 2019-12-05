@@ -14,6 +14,8 @@ import { MessageService } from './message.service';
 // but if we work with user's account, we should call specific user service's methods
 // to be sure that user's local data structures are always up to date.
 
+// UPD: task adding method was replaced with manager's and subordinate's local services methods
+
 @Injectable({
   providedIn: 'root'
 })

@@ -28,7 +28,6 @@ export class ManagerTasksComponent implements OnInit {
   constructor(private taskService: TaskService, private managerService: ManagerService) { }
 
   ngOnInit() {
-    // this.getTasks();
     this.sessionUserID = sessionStorage.getItem('sessionUserID');
     this.getTasksByExecutor(this.sessionUserID);
     this.getUncheckedTasksList(this.sessionUserID);
@@ -102,7 +101,7 @@ export class ManagerTasksComponent implements OnInit {
     task.priority = this.priorityOfCurrentTask;
     task.executorID = this.sessionUserID;
 
-    this.taskService.addTask(task)
+    this.managerService.addTask(task)
       .subscribe(task => {
         this.tasks.push(task);
       });

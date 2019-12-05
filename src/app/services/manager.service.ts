@@ -53,7 +53,7 @@ export class ManagerService {
 
   getTasksOfManager(executorID: string): Observable<Task[]> {
     const url = `${this.managersUrl}/${executorID}/getManagerTaskList`;
-    return this.http.get<Task[]>(url).pipe(
+    return this.http.get<Task[]>(url, this.httpOptions).pipe(
       tap(_ => this.log(`fetched tasks of manager ID=${executorID}`)),
       catchError(this.handleError<Task[]>(`tasks of manager ID=${executorID}`))
     );
@@ -61,7 +61,7 @@ export class ManagerService {
 
   getUncheckedTasksList(managerID: string): Observable<Task[]> {
     const url = `${this.managersUrl}/${managerID}/getUncheckedTaskList`;
-    return this.http.get<Task[]>(url).pipe(
+    return this.http.get<Task[]>(url, this.httpOptions).pipe(
       tap(_ => this.log(`fetched unchecked tasks of manager ID=${managerID}`)),
       catchError(this.handleError<Task[]>(`getUncheckedTasksList of manager ID=${managerID}`))
     );
@@ -69,7 +69,7 @@ export class ManagerService {
 
   getSubordinatesOfManager(managerID: string): Observable<Subordinate[]> {
     const url = `${this.managersUrl}/${managerID}/getSubordinateList`;
-    return this.http.get<Subordinate[]>(url).pipe(
+    return this.http.get<Subordinate[]>(url, this.httpOptions).pipe(
       tap(_ => this.log(`fetched subordinates of manager ID=${managerID}`)),
       catchError(this.handleError<Subordinate[]>(`subordinates of manager ID=${managerID}`))
     );
@@ -77,7 +77,7 @@ export class ManagerService {
 
   getSubordinatesWithUrgentTasks(managerID: string): Observable<Subordinate[]> {
     const url = `${this.managersUrl}/${managerID}/getSubordinatesWithUrgentTasks`;
-    return this.http.get<Subordinate[]>(url).pipe(
+    return this.http.get<Subordinate[]>(url, this.httpOptions).pipe(
       tap(_ => this.log(`fetched subordinates with urgent tasks of manager ID=${managerID}`)),
       catchError(this.handleError<Subordinate[]>(`getSubordinatesWithUrgentTasks of manager ID=${managerID}`))
     );
@@ -89,7 +89,7 @@ export class ManagerService {
     let manager: Manager = new Manager();
     manager.name = managerName;
     manager.email = managerEmail;
-    manager.password = managerPassword; // TODO: encode password
+    manager.password = managerPassword;
 
     return this.http.post<Manager>(url, manager).pipe(
       tap((newManager: Manager) => this.log(`added manager w/ id=${newManager.userID}`)),
@@ -114,6 +114,14 @@ export class ManagerService {
     return this.http.put(url, manager, this.httpOptions).pipe(
       tap(_ => this.log(`updated manager id=${id}`)),
       catchError(this.handleError<any>('updateManager'))
+    );
+  }
+
+  addTask(task: Task): Observable<Task> {
+    const url = `${this.managersUrl}/task`;
+    return this.http.post<Task>(url, task, this.httpOptions).pipe(
+      tap((newTask: Task) => this.log(`added task w/ id=${newTask.taskID}`)),
+      catchError(this.handleError<Task>('addTask'))
     );
   }
 

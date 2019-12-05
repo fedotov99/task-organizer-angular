@@ -15,7 +15,10 @@ export class SubordinateService {
   private subordinateRegisterUrl = 'http://localhost:8080/create/subordinate';
 
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    headers: new HttpHeaders({
+      'Content-Type':  'application/json',
+      'Authorization': 'Basic ' + sessionStorage.getItem('token')
+    })
   };
 
   constructor(
@@ -23,7 +26,7 @@ export class SubordinateService {
     private messageService: MessageService) { }
 
   getSubordinates(): Observable<Subordinate[]> {
-    return this.http.get<Subordinate[]>(this.subordinatesUrl)
+    return this.http.get<Subordinate[]>(this.subordinatesUrl, this.httpOptions)
       .pipe(
         tap(_ => this.log('fetched subordinates')),
         catchError(this.handleError<Subordinate[]>('getSubordinates', []))
@@ -32,7 +35,7 @@ export class SubordinateService {
 
   getSubordinateByID(id: string): Observable<Subordinate> {
     const url = `${this.subordinatesUrl}/${id}`;
-    return this.http.get<Subordinate>(url).pipe(
+    return this.http.get<Subordinate>(url, this.httpOptions).pipe(
       tap(_ => this.log(`fetched subordinate id=${id}`)),
       catchError(this.handleError<Subordinate>(`getSubordinate id=${id}`))
     );
@@ -40,15 +43,14 @@ export class SubordinateService {
 
   getTasksOfSubordinate(executorID: string): Observable<Task[]> {
     const url = `${this.subordinatesUrl}/${executorID}/getSubordinateTaskList`;
-    return this.http.get<Task[]>(url).pipe(
+    return this.http.get<Task[]>(url, this.httpOptions).pipe(
       tap(_ => this.log(`fetched tasks of subordinate ID=${executorID}`)),
       catchError(this.handleError<Task[]>(`tasks of subordinate ID=${executorID}`))
     );
   }
 
   addSubordinate(subordinate: Subordinate): Observable<Subordinate> {
-    let managerID: string = subordinate.managerID;
-    const url = `${this.subordinateRegisterUrl}/?managerID=${managerID}`;
+    const url = `${this.subordinateRegisterUrl}`;
     return this.http.post<Subordinate>(url, subordinate).pipe(
       tap((newSubordinate: Subordinate) => this.log(`added subordinate w/ id=${newSubordinate.userID}`)),
       catchError(this.handleError<Subordinate>('addSubordinate'))
@@ -72,6 +74,14 @@ export class SubordinateService {
     return this.http.put(url, subordinate, this.httpOptions).pipe(
       tap(_ => this.log(`updated subordinate id=${id}`)),
       catchError(this.handleError<any>('updateSubordinate'))
+    );
+  }
+
+  addTask(task: Task): Observable<Task> {
+    const url = `${this.subordinatesUrl}/task`;
+    return this.http.post<Task>(url, task, this.httpOptions).pipe(
+      tap((newTask: Task) => this.log(`added task w/ id=${newTask.taskID}`)),
+      catchError(this.handleError<Task>('addTask'))
     );
   }
 
