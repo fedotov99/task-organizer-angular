@@ -6,6 +6,7 @@ import {Task} from "../classes/task";
 import {catchError, map, tap} from "rxjs/operators";
 import {PriorityType} from "../classes/priority-type.enum";
 import {Subordinate} from "../classes/subordinate";
+import {Manager} from "../classes/manager";
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +39,16 @@ export class SubordinateService {
     return this.http.get<Subordinate>(url, this.httpOptions).pipe(
       tap(_ => this.log(`fetched subordinate id=${id}`)),
       catchError(this.handleError<Subordinate>(`getSubordinate id=${id}`))
+    );
+  }
+
+  // subordinate would like to see info about his manager
+  getManagerInfoByID(id: string): Observable<Manager> {
+    const url = `${this.subordinatesUrl}/getManagerInfo/${id}`;
+
+    return this.http.get<Manager>(url, this.httpOptions).pipe(
+      tap(_ => this.log(`fetched manager id=${id}`)),
+      catchError(this.handleError<Manager>(`getManager id=${id}`))
     );
   }
 
