@@ -2,7 +2,7 @@
 <!-- todo reassign task to other sub-->
 <mat-expansion-panel [expanded]="false" hideToggle>
   <mat-expansion-panel-header>
-    <mat-icon>person</mat-icon>
+    <mat-icon>account_circle</mat-icon>
     <mat-panel-title>
       {{manager.name}}
     </mat-panel-title>
@@ -19,6 +19,8 @@
 
 <h2>List of my subordinates: </h2>
 
+<mat-label *ngIf="managerSubordinates.length == 0">
+  <mat-icon>mood_bad</mat-icon>   You don't have subordinates yet</mat-label>
 <mat-expansion-panel *ngFor="let subordinate of managerSubordinates" [expanded]="false" hideToggle>
   <mat-expansion-panel-header>
     <mat-icon>face</mat-icon>
@@ -83,6 +85,8 @@
   <mat-tab label="List of my tasks">
     <h2>List of my tasks:</h2>
 
+    <mat-label *ngIf="tasks.length == 0">
+      <mat-icon>mood_bad</mat-icon>   You don't have tasks yet</mat-label>
     <mat-expansion-panel *ngFor="let task of tasks" [expanded]="false" hideToggle>
       <mat-expansion-panel-header>
         <mat-icon>assignment</mat-icon>
