@@ -4,6 +4,7 @@ import {TaskService} from '../services/task.service';
 import {PriorityType} from '../classes/priority-type.enum';
 import {SubordinateService} from "../services/subordinate.service";
 import {Subordinate} from "../classes/subordinate";
+import {Manager} from "../classes/manager";
 
 @Component({
   selector: 'app-subordinate-tasks',
@@ -12,6 +13,8 @@ import {Subordinate} from "../classes/subordinate";
 })
 export class SubordinateTasksComponent implements OnInit {
   subordinate: Subordinate;
+  myManagerID: string;
+  myManager: Manager;
   tasks: Task[];
   selectedPriority = 'NORMAL';
   priorityOfCurrentTask: PriorityType = PriorityType.NORMAL;
@@ -39,7 +42,17 @@ export class SubordinateTasksComponent implements OnInit {
 
   getSubordinateByID(subordinateID: string): void {
     this.subordinateService.getSubordinateByID(subordinateID)
-      .subscribe(subordinate => this.subordinate = subordinate);
+      .subscribe(subordinate => {
+        this.subordinate = subordinate;
+        this.myManagerID = subordinate.managerID;
+        this.getManagerInfoByID(this.myManagerID);
+      });
+  }
+
+  // subordinate would like to see info about his manager
+  getManagerInfoByID(managerID: string): void {
+    this.subordinateService.getManagerInfoByID(managerID)
+      .subscribe(myManager => this.myManager = myManager);
   }
 
   handlePriorityOfCreatedTask(): void {
@@ -103,5 +116,12 @@ export class SubordinateTasksComponent implements OnInit {
     // we shouldn't call deleting task from DB method.
     // Instead, we must work with local user task list
     this.subordinateService.deleteTaskFromSubordinateTaskList(task, this.sessionUserID).subscribe();
+  }
+
+  getExecutorNameByID(id: string): string {
+    if (this.sessionUserID == id)
+      return "Me";
+    else
+      return id;
   }
 }

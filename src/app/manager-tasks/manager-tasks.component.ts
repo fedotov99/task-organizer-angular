@@ -126,6 +126,7 @@ export class ManagerTasksComponent implements OnInit {
   assignTaskToSubordinate(task: Task): void {
     let subordinateID: string = this.selectedSubordinateID;
     this.tasks = this.tasks.filter(t => t !== task);
+    this.uncheckedTasks = this.uncheckedTasks.filter(t => t !== task);
     this.managerService.assignTaskToSubordinate(task, this.sessionUserID, subordinateID)
       .subscribe();
   }
@@ -148,5 +149,15 @@ export class ManagerTasksComponent implements OnInit {
     this.uncheckedTasks = this.uncheckedTasks.filter(t => t !== task);
     this.managerService.declineTask(this.sessionUserID, taskID)
       .subscribe();
+  }
+
+  getExecutorNameByID(id: string): string {
+    if (this.sessionUserID == id)
+      return "Me";
+    let executor : Subordinate[] = this.managerSubordinates.filter(s => s.userID == id);
+    if (executor != null)
+      return executor[0].name;
+    else
+      return id;
   }
 }
