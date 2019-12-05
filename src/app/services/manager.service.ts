@@ -163,7 +163,7 @@ export class ManagerService {
     const taskID = task.taskID;
     const url = `${this.managersUrl}/${id}/assignTaskToSubordinate?taskID=${taskID}&subordinateID=${subordinateID}`;
 
-    return this.http.post(url, this.httpOptions).pipe(
+    return this.http.get(url, this.httpOptions).pipe(
       tap(_ => this.log(`assigned taskID=${taskID} to subordinateID=${subordinateID} of managerID=${managerID}`)),
       catchError(this.handleError<Task>('assignTaskToSubordinate'))
     );
@@ -173,7 +173,7 @@ export class ManagerService {
     const id = managerID;
     const url = `${this.managersUrl}/${id}/approveTask?taskID=${taskID}`;
 
-    return this.http.post(url, this.httpOptions).pipe(
+    return this.http.get(url, this.httpOptions).pipe(
       tap(_ => this.log(`approved taskID=${taskID} in unchecked task list of managerID=${managerID}`)),
       catchError(this.handleError<Task>('approveTask'))
     );
@@ -183,7 +183,7 @@ export class ManagerService {
     const id = managerID;
     const url = `${this.managersUrl}/${id}/declineTask?taskID=${taskID}`;
 
-    return this.http.post(url, this.httpOptions).pipe(
+    return this.http.get(url, this.httpOptions).pipe(
       tap(_ => this.log(`declined taskID=${taskID} in unchecked task list of managerID=${managerID}`)),
       catchError(this.handleError<Task>('declineTask'))
     );
