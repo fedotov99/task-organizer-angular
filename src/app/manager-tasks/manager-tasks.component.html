@@ -10,8 +10,13 @@
       My account information
     </mat-panel-description>
   </mat-expansion-panel-header>
-  <mat-label>userID: </mat-label>
-  {{manager.userID}}
+<!--  <mat-label>userID: </mat-label>-->
+<!--  {{manager.userID}}-->
+  <mat-label><mat-icon>work</mat-icon>   I am a manager</mat-label>
+  <br>
+  <mat-label><mat-icon>group</mat-icon>   I have {{managerSubordinates.length}} subordinates</mat-label>
+  <br>
+  <mat-label><mat-icon>alternate_email</mat-icon>   My email: {{manager.email}}</mat-label>
   <br>
   <br>
   <br>
@@ -31,16 +36,13 @@
       My subordinate
     </mat-panel-description>
   </mat-expansion-panel-header>
-  <mat-label>userID: </mat-label>
-  {{subordinate.userID}}
   <br>
-  <mat-label>Manager ID: </mat-label>
-  {{subordinate.managerID}}
+  <mat-label><mat-icon>alternate_email</mat-icon>   Email: {{subordinate.email}}</mat-label>
   <br>
-  <mat-label>Score: </mat-label>
+  <mat-label><mat-icon> attach_money</mat-icon>   Score: </mat-label>
   {{subordinate.score}}
   <br>
-  <mat-label>Position: </mat-label>
+  <mat-label><mat-icon>event_seat</mat-icon>   Position: </mat-label>
   {{subordinate.position}}
   <br>
   <br>
@@ -103,20 +105,23 @@
         <mat-step>
           <ng-template matStepLabel>Update task</ng-template>
 
-          <mat-label>taskID: </mat-label>
-          {{task.taskID}}
+<!--          <mat-label>taskID: </mat-label>
+          {{task.taskID}}-->
           <br>
-          <mat-label>Priority: </mat-label>
+          <mat-label><mat-icon>watch_later</mat-icon>   Priority: </mat-label>
           {{task.priority}}
           <br>
-          <mat-label>Completed: </mat-label>
-          {{task.completed}}
+          <mat-label *ngIf="task.completed"><mat-icon>check_box</mat-icon>   Completed! </mat-label>
+          <mat-label *ngIf="!task.completed"><mat-icon>check_box_outline_blank</mat-icon>   Not completed... </mat-label>
           <br>
-          <mat-label>Description: </mat-label>
+          <mat-label><mat-icon>description</mat-icon>   Description: </mat-label>
           {{task.description}}
           <br>
-          <mat-label>ExecutorID: </mat-label>
-          {{task.executorID}}
+          <mat-label><mat-icon>person</mat-icon>   Executor: </mat-label>
+          {{getExecutorNameByID(task.executorID)}}
+          <br>
+          <mat-label *ngIf="task.report"><mat-icon>receipt</mat-icon>   Report: </mat-label>
+          {{task.report}}
           <br>
           <br>
           <br>
@@ -147,8 +152,10 @@
         <mat-step>
           <ng-template matStepLabel>Assign task to my subordinate</ng-template>
           <br>
+          <mat-label>Please, choose one of your subordinates:</mat-label>
+          <br>
           <mat-form-field>
-            <mat-label>Please, choose one of your subordinates:</mat-label>
+            <mat-label>Subordinate...</mat-label>
             <mat-select [(value)]="selectedSubordinateID">
               <mat-option *ngFor="let subordinate of managerSubordinates" value={{subordinate.userID}}>{{subordinate.name}}</mat-option>
             </mat-select>
@@ -178,6 +185,8 @@
   <mat-tab label="List of unchecked tasks from my subordinates">
     <h2>List of unchecked tasks from my subordinates:</h2>
 
+    <mat-label *ngIf="uncheckedTasks.length == 0">
+      <mat-icon>mood_bad</mat-icon>   You don't have unchecked tasks from subordinates</mat-label>
     <mat-expansion-panel *ngFor="let task of uncheckedTasks" [expanded]="false" hideToggle>
       <mat-expansion-panel-header>
         <mat-icon>markunread_mailbox</mat-icon>
@@ -189,22 +198,19 @@
 
         </mat-panel-description>
       </mat-expansion-panel-header>
-      <mat-label>taskID: </mat-label>
-      {{task.taskID}}
-      <br>
-      <mat-label>Priority: </mat-label>
+      <mat-label><mat-icon>watch_later</mat-icon>   Priority: </mat-label>
       {{task.priority}}
       <br>
-      <mat-label>Completed: </mat-label>
-      {{task.completed}}
+      <mat-label *ngIf="task.completed"><mat-icon>check_box</mat-icon>   Completed! </mat-label>
+      <mat-label *ngIf="!task.completed"><mat-icon>check_box_outline_blank</mat-icon>   Not completed... </mat-label>
       <br>
-      <mat-label>Description: </mat-label>
+      <mat-label><mat-icon>description</mat-icon>   Description: </mat-label>
       {{task.description}}
       <br>
-      <mat-label>ExecutorID: </mat-label>
-      {{task.executorID}}
+      <mat-label><mat-icon>person</mat-icon>   Executor: </mat-label>
+      {{getExecutorNameByID(task.executorID)}}
       <br>
-      <mat-label>Report: </mat-label>
+      <mat-label *ngIf="task.report"><mat-icon>receipt</mat-icon>   Report: </mat-label>
       {{task.report}}
       <br>
       <br>
@@ -218,11 +224,30 @@
         <mat-icon>assignment_return</mat-icon>
         Decline task
       </button>
+      <br>
+      <br>
+      <br>
+      <br>
+      <mat-label>You can also assign task to another subordinate:</mat-label>
+      <br>
+      <mat-form-field>
+        <mat-label>Subordinate...</mat-label>
+        <mat-select [(value)]="selectedSubordinateID">
+          <mat-option *ngFor="let subordinate of managerSubordinates" value={{subordinate.userID}}>{{subordinate.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+      <button mat-button (click)="assignTaskToSubordinate(task);">
+        <mat-icon>send</mat-icon>
+        Assign to subordinate
+      </button>
     </mat-expansion-panel>
   </mat-tab>
 
   <mat-tab label="Set eyes on">
     <h2>These my subordinates have urgent tasks:</h2>
+    <mat-label *ngIf="subordinatesWithUrgentTasks.length == 0">
+      <mat-icon>mood_good</mat-icon>   You don't have subordinates with urgent tasks! Sleep tight!</mat-label>
     <mat-expansion-panel *ngFor="let subordinate of subordinatesWithUrgentTasks" [expanded]="false" hideToggle>
       <mat-expansion-panel-header>
         <mat-icon>face</mat-icon>
@@ -233,16 +258,13 @@
           My subordinate
         </mat-panel-description>
       </mat-expansion-panel-header>
-      <mat-label>userID: </mat-label>
-      {{subordinate.userID}}
       <br>
-      <mat-label>Manager ID: </mat-label>
-      {{subordinate.managerID}}
+      <mat-label><mat-icon>alternate_email</mat-icon>   Email: {{subordinate.email}}</mat-label>
       <br>
-      <mat-label>Score: </mat-label>
+      <mat-label><mat-icon> attach_money</mat-icon>   Score: </mat-label>
       {{subordinate.score}}
       <br>
-      <mat-label>Position: </mat-label>
+      <mat-label><mat-icon>event_seat</mat-icon>   Position: </mat-label>
       {{subordinate.position}}
       <br>
       <br>

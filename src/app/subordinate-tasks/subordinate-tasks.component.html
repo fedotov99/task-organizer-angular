@@ -10,17 +10,24 @@
       My account information
     </mat-panel-description>
   </mat-expansion-panel-header>
-  <mat-label>userID: </mat-label>
+<!--  <mat-label>userID: </mat-label>
   {{subordinate.userID}}
   <br>
   <mat-label>Manager ID: </mat-label>
-  {{subordinate.managerID}}
+  {{subordinate.managerID}}-->
+  <mat-label><mat-icon>work</mat-icon>   I am a subordinate</mat-label>
   <br>
-  <mat-label>Score: </mat-label>
+  <mat-label><mat-icon>alternate_email</mat-icon>   My email: {{subordinate.email}}</mat-label>
+  <br>
+  <mat-label><mat-icon> attach_money</mat-icon>   Score: </mat-label>
   {{subordinate.score}}
   <br>
-  <mat-label>Position: </mat-label>
+  <mat-label><mat-icon>event_seat</mat-icon>   Position: </mat-label>
   {{subordinate.position}}
+  <br>
+    <mat-label><mat-icon>person</mat-icon>   My manager's name is {{myManager.name}}</mat-label>
+    <br>
+    <mat-label><mat-icon>alternate_email</mat-icon>   My manager's email: {{myManager.email}}</mat-label>
   <br>
   <br>
   <br>
@@ -80,23 +87,20 @@
     <mat-step>
         <ng-template matStepLabel>Update task</ng-template>
 
-        <mat-label>taskID: </mat-label>
-        {{task.taskID}}
-        <br>
-        <mat-label>Priority: </mat-label>
-        {{task.priority}}
-        <br>
-        <mat-label>Completed: </mat-label>
-        {{task.completed}}
-        <br>
-        <mat-label>Description: </mat-label>
-        {{task.description}}
-        <br>
-        <mat-label>Report: </mat-label>
-        {{task.report}}
-        <br>
-        <mat-label>ExecutorID: </mat-label>
-        {{task.executorID}}
+      <mat-label><mat-icon>watch_later</mat-icon>   Priority: </mat-label>
+      {{task.priority}}
+      <br>
+      <mat-label *ngIf="task.completed"><mat-icon>check_box</mat-icon>   Completed! </mat-label>
+      <mat-label *ngIf="!task.completed"><mat-icon>check_box_outline_blank</mat-icon>   Not completed... </mat-label>
+      <br>
+      <mat-label><mat-icon>description</mat-icon>   Description: </mat-label>
+      {{task.description}}
+      <br>
+      <mat-label><mat-icon>person</mat-icon>   Executor: </mat-label>
+      {{getExecutorNameByID(task.executorID)}}
+      <br>
+      <mat-label *ngIf="task.report"><mat-icon>receipt</mat-icon>   Report: </mat-label>
+      {{task.report}}
         <br>
         <br>
         <br>
