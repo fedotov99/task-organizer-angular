@@ -40,7 +40,8 @@ export class AuthenticationService {
   }
 
   logOut() {
-    sessionStorage.removeItem('sessionUserID')
+    sessionStorage.removeItem('sessionUserID');
+    sessionStorage.removeItem('token');
   }
 
   /**
